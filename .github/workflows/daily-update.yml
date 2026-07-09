@@ -31,9 +31,11 @@ jobs:
         # --allowedTools libera WebSearch/WebFetch (o acceptEdits so cobre Edit/Write).
         # De proposito NAO liberamos Bash aqui: o passo seguinte ja faz o deploy,
         # entao o Claude nao precisa rodar ./deploy.sh nem shell arbitrario nesta etapa.
-        run: claude -p "$(cat rotina-diaria.md)
+        run: |
+          PROMPT="$(cat rotina-diaria.md)
 
-Nesta execucao automatizada (CI), NAO rode ./deploy.sh nem nenhum comando de shell — apenas pesquise e edite o index.html. A publicacao e feita por um passo separado do workflow." --permission-mode acceptEdits --allowedTools "WebSearch,WebFetch"
+          Nesta execucao automatizada (CI), NAO rode ./deploy.sh nem nenhum comando de shell -- apenas pesquise e edite o index.html. A publicacao e feita por um passo separado do workflow."
+          claude -p "$PROMPT" --permission-mode acceptEdits --allowedTools "WebSearch,WebFetch"
       - name: Commit das mudancas
         run: |
           git config user.name "agrocore-bot"
