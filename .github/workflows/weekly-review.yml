@@ -1,0 +1,57 @@
+name: PDCA semanal da rotina diaria
+
+# Roda toda segunda as 08:00 BRT (11:00 UTC): o Claude revisa os commits
+# automaticos da ultima semana (gerados pelo "Atualizacao diaria e deploy"),
+# identifica padroes fracos/repetitivos e abre uma Issue com um relatorio
+# PDCA (Check + Act) e sugestoes concretas de ajuste no rotina-diaria.md.
+# NAO edita nenhum arquivo do repo -- so le git log/diff e logs do Actions
+# e propoe mudancas para revisao humana.
+on:
+  schedule:
+    - cron: '0 11 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  actions: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Instalar Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+      - name: Gerar relatorio PDCA
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PROMPT='Voce e responsavel pelo PDCA semanal da rotina diaria do painel AgroCore (repositorio atual, branch main).
+
+          Objetivo: revisar os commits automaticos dos ultimos 7 dias gerados pelo workflow "Atualizacao diaria e deploy" (autor "agrocore-bot") e identificar padroes de erro, conteudo fraco ou generico, dados que ficaram "a confirmar/n/d" por muito tempo sem necessidade, inconsistencias entre dias, ou desvios das regras do rotina-diaria.md.
+
+          Passos:
+          1. Rode `git log --since="7 days ago" --author=agrocore-bot --oneline -- index.html` e depois `git log --since="7 days ago" --author=agrocore-bot -p -- index.html` (ou diffs dia a dia com `git show`) para ver o que mudou de fato.
+          2. Rode `gh run list --workflow "Atualizacao diaria e deploy" --limit 10` e `gh run view <id> --log` nos runs da ultima semana para checar erros, avisos, ou passos que falharam silenciosamente (o step de commit usa continue-on-error/`|| true` em alguns pontos, entao falhas podem estar mascaradas).
+          3. Leia o rotina-diaria.md atual (as regras que a rotina diaria segue hoje).
+          4. Escreva um relatorio em Markdown com duas secoes:
+             - "Check": o que funcionou bem e o que nao funcionou/ficou fraco nesta semana, com exemplos concretos (trecho de diff ou log, com data).
+             - "Act": de 2 a 5 sugestoes objetivas e especificas de mudanca no rotina-diaria.md (com o texto exato da regra sugerida), priorizadas da mais para a menos importante.
+          5. IMPORTANTE: nao edite nenhum arquivo do repositorio. Apenas imprima o relatorio final em Markdown na saida padrao -- ele sera publicado como uma Issue do GitHub para o responsavel decidir se aplica as mudancas. Se nao houver commits da ultima semana para analisar, diga isso claramente em vez de inventar achados.'
+
+          claude -p "$PROMPT" --allowedTools "Bash" > /tmp/pdca-review.md
+          cat /tmp/pdca-review.md
+      - name: Publicar relatorio como Issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue create \
+            --title "PDCA semanal - revisao da rotina diaria ($(date +%F))" \
+            --body-file /tmp/pdca-review.md
