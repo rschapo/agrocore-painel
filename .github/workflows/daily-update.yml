@@ -1,0 +1,40 @@
+name: Atualizacao diaria e deploy
+
+# Roda dias uteis as 07:00 BRT (10:00 UTC): atualiza o painel com o Claude Code,
+# faz commit e publica no Netlify. Requer o secret ANTHROPIC_API_KEY.
+# OBS (avancado): a etapa de atualizacao usa o Claude Code em modo nao interativo
+# e depende de acesso a web/fontes. Se falhar, o deploy do index.html atual ainda ocorre.
+on:
+  schedule:
+    - cron: '0 10 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  update-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Instalar ferramentas
+        run: npm install -g @anthropic-ai/claude-code netlify-cli
+      - name: Atualizar painel com o Claude
+        continue-on-error: true
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: claude -p "$(cat rotina-diaria.md)" --permission-mode acceptEdits
+      - name: Commit das mudancas
+        run: |
+          git config user.name "agrocore-bot"
+          git config user.email "bot@agrocore.local"
+          git add -A
+          git commit -m "Atualizacao diaria do painel ($(date +%F))" || echo "sem mudancas"
+          git push || true
+      - name: Deploy (producao)
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: netlify deploy --prod --dir=. --message "Daily $(date +%F)"
