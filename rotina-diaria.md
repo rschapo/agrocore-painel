@@ -10,6 +10,11 @@ Enfatize IMPACTO EMPRESARIAL: "o que aconteceu" → "por que importa" → "efeit
 - NÃO altere o bloco <header>/logo; só atualize a data em "Atualizado em ...".
 - Mantenha estrutura, CSS, abas e Chart.js. ACUMULE pontos novos em seriesMap sem apagar os antigos.
 - Notícias com LINK, relevância (alta/média/baixa) e impacto. Alerta em movimento fora do padrão e status sanitário.
+- **Se não conseguir acessar as fontes** (WebSearch/WebFetch bloqueados, scraping indisponível ou sem resultado): **NÃO altere valores nem a data do cabeçalho** e não reescreva a narrativa como se fosse do dia. Deixe o painel com o último dado válido explicitamente datado e registre a falha no Briefing (ex.: "Atualização de DD/MM não realizada — fontes indisponíveis"). É melhor exibir dado anterior datado do que publicar dado velho como se fosse atual.
+- Ao atualizar um valor, **revise também toda nota de rodapé, legenda ou ressalva** ("estimativa", "a confirmar", datas embutidas) que se referia ao valor anterior: atualize a data ou **remova a ressalva** se ela já não se aplica. Nenhuma legenda pode citar uma data anterior à do cabeçalho.
+- Toda seta ▲/▼ deve vir com o **número da variação (%)**; nunca deixe seta sem magnitude. Se a variação não estiver disponível, use classe `flat`/neutra e marque o número como "a confirmar" — não use seta direcional "solta".
+- Célula marcada "a confirmar"/"n/d" **não recebe seta ▲/▼ nem % de variação** na mesma linha. Direção/variação só quando houver valor confirmado com fonte; caso contrário, mantenha o texto neutro (ex.: "aguardando settle oficial").
+- Ao deixar uma célula em "a confirmar"/"n/d", anexe a **data de início da pendência** (ex.: `a confirmar (desde 9/jul)`). Se uma célula não-estrutural permanecer pendente por **mais de 3 dias úteis**, sinalize no Briefing como item a resolver. Colunas estruturais de cadência conhecida (séries semana/30d/12m das proteínas via CEPEA) ficam isentas, desde que a legenda explique a cadência.
 
 ## Fontes
 CEPEA (soja, milho, arroz, café, boi, frango, suíno, ovos, leite cru e derivados, açúcar/etanol, bezerro); Agrolink (grãos por praça/cidade — referencial); BCB (PTAX/SGS/Focus/Copom); IBGE/SIDRA; Conab; USDA/WASDE; B3 (BGI/CCM); Comex Stat/AgroStat (exportação); GDT (lácteos); MAPA/ABPA/WOAH (sanitário); mercado (Ibovespa, S&P, Nasdaq, Dow, VIX, DXY, Brent/WTI, ouro, USD/EUR/JPY).

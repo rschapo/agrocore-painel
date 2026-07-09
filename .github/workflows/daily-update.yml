@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   update-deploy:
@@ -35,7 +36,36 @@ jobs:
           PROMPT="$(cat rotina-diaria.md)
 
           Nesta execucao automatizada (CI), NAO rode ./deploy.sh nem nenhum comando de shell -- apenas pesquise e edite o index.html. A publicacao e feita por um passo separado do workflow."
-          claude -p "$PROMPT" --permission-mode acceptEdits --allowedTools "WebSearch,WebFetch"
+          claude -p "$PROMPT" --permission-mode acceptEdits --allowedTools "WebSearch,WebFetch" 2>&1 | tee /tmp/claude-output.log
+      - name: Checar se houve atualizacao real
+        id: check
+        run: |
+          if [ -z "$(git status --porcelain -- index.html)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Alertar falha (index.html nao mudou)
+        if: steps.check.outputs.changed == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          {
+            echo "A rotina diaria rodou em $(date -u +%FT%TZ) mas NAO produziu nenhuma mudanca em index.html."
+            echo
+            echo "Isso normalmente indica falha (fontes bloqueadas, erro de permissao, credito esgotado etc.),"
+            echo "nao um dia sem novidade -- um painel de mercado diario quase sempre tem pelo menos"
+            echo "data/precos/noticias novas. O site publicado hoje continua sendo o conteudo do dia anterior"
+            echo "(fallback intencional do workflow), mas isso precisa da sua atencao."
+            echo
+            echo '## Saida do passo "Atualizar painel com o Claude"'
+            echo '```'
+            tail -c 4000 /tmp/claude-output.log 2>/dev/null || echo "(sem log capturado)"
+            echo '```'
+          } > /tmp/alert-body.md
+          gh issue create \
+            --title "Alerta: rotina diaria de $(date +%F) nao atualizou o painel" \
+            --body-file /tmp/alert-body.md
       - name: Commit das mudancas
         run: |
           git config user.name "agrocore-bot"
