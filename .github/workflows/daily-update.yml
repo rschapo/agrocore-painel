@@ -71,12 +71,40 @@ jobs:
             --title "Alerta: rotina diaria de $(date +%F) nao atualizou o painel" \
             --body-file /tmp/alert-body.md
       - name: Commit das mudancas
+        id: commit
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "agrocore-bot"
           git config user.email "bot@agrocore.local"
           git add -A
           git commit -m "Atualizacao diaria do painel ($(date +%F))" || echo "sem mudancas"
-          git push || true
+          if git push; then
+            echo "push_failed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Push inicial falhou (branch main avancou nesse meio-tempo) -- tentando rebase e novo push."
+            if git pull --rebase origin main && git push; then
+              echo "push_failed=false" >> "$GITHUB_OUTPUT"
+            else
+              echo "push_failed=true" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+      - name: Alertar falha (push nao chegou no GitHub)
+        if: steps.commit.outputs.push_failed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          {
+            echo "A rotina diaria de $(date +%F) editou o index.html, mas o commit NAO chegou ao GitHub"
+            echo "(git push falhou mesmo apos tentativa de rebase -- provavel push concorrente ou conflito)."
+            echo
+            echo "O passo de deploy ainda publica o conteudo gerado nesta execucao (a partir dos arquivos"
+            echo "locais do runner), entao o site pode estar correto -- mas o repositorio ficara desatualizado"
+            echo "ate alguem sincronizar manualmente o index.html publicado de volta para o git."
+          } > /tmp/alert-push-body.md
+          gh issue create \
+            --title "Alerta: push da rotina diaria de $(date +%F) falhou (git divergente do site)" \
+            --body-file /tmp/alert-push-body.md
       - name: Deploy (producao)
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
