@@ -20,9 +20,38 @@ Enfatize IMPACTO EMPRESARIAL: "o que aconteceu" → "por que importa" → "efeit
 CEPEA (soja, milho, arroz, café, boi, frango, suíno, ovos, leite cru e derivados, açúcar/etanol, bezerro); Agrolink (grãos por praça/cidade — referencial); BCB (PTAX/SGS/Focus/Copom); IBGE/SIDRA; Conab; USDA/WASDE; B3 (BGI/CCM); Comex Stat/AgroStat (exportação); GDT (lácteos); MAPA/ABPA/WOAH (sanitário); mercado (Ibovespa, S&P, Nasdaq, Dow, VIX, DXY, Brent/WTI, ouro, USD/EUR/JPY).
 
 ## O que atualizar por aba
-- **Grãos**: indicadores CEPEA (soja, milho, arroz, café); histórico/tendência; média Brasil; por UF usando a praça de maior comercialização (cidade entre parênteses) via Agrolink — MT (Sorriso), MS (Dourados), GO (Rio Verde), MG (Uberlândia), SP (Ribeirão Preto), PR (Cascavel), SC (Chapecó), RS (Passo Fundo), BA (Barreiras), TO (Pedro Afonso), MA/PA (Balsas); safra/clima/logística.
+- **Grãos**: indicadores CEPEA (soja, milho, arroz, café); histórico/tendência; média Brasil; tabela "Valor de venda por estado (UF)" com **praça de referência por cultura** (ver seção dedicada abaixo — a cidade mais representativa pode mudar por cultura dentro do mesmo estado); safra/clima/logística.
 - **Proteínas**: comparativa; suíno vivo por praça CEPEA (indicador médio + SC, PR, RS, SP-5, MG — atenção: ~R$5,88 é MG, não SC); variação (dia/mês do CEPEA; semana/30d/12m da série); custo de ração & relação de troca (milho+farelo referenciados de Grãos); preços relativos; lácteos + GDT; boi (bezerro/BGI B3); exportação (Comex/AgroStat); status sanitário.
 - Demais abas (Câmbio/Juros, Bolsas, Commodities, Gráficos, Briefing, Notícias, Alertas, Fontes): atualizar valores, variações, notícias com link e a data do cabeçalho.
+
+## Praças de referência por cultura e UF (tabela "Valor de venda por estado")
+A praça mais líquida/representativa de uma UF pode ser diferente para soja, milho e arroz (ex.: em TO a soja referencia Pedro Afonso, o milho Porto Nacional, e o arroz — várzea irrigada — Lagoa da Confusão). Por isso o rótulo da UF passa a citar a praça de cada cultura, não uma única cidade para todas.
+
+**Formato do rótulo:** `UF (sj: Cidade | mi: Cidade | ar: Cidade)` — abreviações sj=soja, mi=milho, ar=arroz. **Omita** o trecho de uma cultura que não é comercialmente relevante naquela UF (mantenha "—" na coluna de preço dessa cultura, como já é feito hoje).
+
+A tabela já tem `class="uf-table"` no `<table>` e CSS dedicado (fonte menor, quebra de linha) para caber esse rótulo mais longo na primeira coluna — **preserve essa classe e o CSS**, não volte para o rótulo de cidade única.
+
+Praças padrão para partir (ajuste quando a fonte indicar praça mais líquida/representativa — ver regras abaixo):
+
+| UF | sj (soja) | mi (milho) | ar (arroz) |
+|---|---|---|---|
+| MT | Sorriso | Sorriso | — |
+| MS | Dourados | Dourados | — |
+| GO | Rio Verde | Rio Verde | — |
+| MG | Uberlândia | Uberlândia | — |
+| SP | Ribeirão Preto | Ribeirão Preto | — |
+| PR | Cascavel | Cascavel | praça a confirmar |
+| SC | Chapecó | Chapecó | praça a confirmar (região sul/litoral, ex. AMESC) |
+| RS | Passo Fundo | Passo Fundo | praça a confirmar (IRGA costuma indexar por região — Fronteira Oeste, Depressão Central, Zona Sul — não por uma única cidade) |
+| BA | Barreiras | Barreiras | — |
+| TO | Pedro Afonso | Porto Nacional | Lagoa da Confusão |
+| MA/PA | Balsas | Balsas | praça a confirmar (ex. região da Baixada Maranhense) |
+
+Regras desta tabela:
+- Onde estiver "praça a confirmar": pesquise a praça/região mais representativa (Agrolink, CEPEA, IRGA-RS) antes de assumir uma cidade. Se não confirmar, mantenha o rótulo genérico "(ar: praça a confirmar)" em vez de citar uma cidade não verificada.
+- Uma vez que uma praça for confirmada por uma fonte, **mantenha-a** nos dias seguintes (não troque sem motivo) para preservar a comparabilidade da série ao longo do tempo.
+- Se uma fonte indicar praça diferente/melhor da listada aqui, atualize a cidade no `index.html` **e** registre o ajuste no Briefing como mudança metodológica (não como erro).
+- **Sobre completude**: nem toda combinação UF×cultura tem cotação física dedicada disponível diariamente em fontes públicas (Agrolink e páginas de cotação de balcão costumam bloquear scraping ou exigir login). É esperado e aceitável que várias células fiquem "a confirmar (desde DD/mmm)" por vários dias — não force estimativa para preencher. Priorize confirmar novas praças aos poucos a cada execução, em vez de tentar fechar a tabela inteira de uma vez.
 
 ## Passos
 1. Pesquise os indicadores e notícias das últimas 24h (busca/scraping das fontes acima).
