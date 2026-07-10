@@ -1,14 +1,16 @@
 name: PDCA semanal da rotina diaria
 
-# Roda toda segunda as 08:00 BRT (11:00 UTC): o Claude revisa os commits
+# Roda toda segunda por volta das 08:12 BRT (11:12 UTC): o Claude revisa os commits
 # automaticos da ultima semana (gerados pelo "Atualizacao diaria e deploy"),
 # identifica padroes fracos/repetitivos e abre uma Issue com um relatorio
 # PDCA (Check + Act) e sugestoes concretas de ajuste no rotina-diaria.md.
 # NAO edita nenhum arquivo do repo -- so le git log/diff e logs do Actions
 # e propoe mudancas para revisao humana.
+# Cron fora do topo da hora (:00) de proposito -- ver nota em daily-update.yml
+# sobre o schedule do GitHub Actions ser "best effort".
 on:
   schedule:
-    - cron: '0 11 * * 1'
+    - cron: '12 11 * * 1'
   workflow_dispatch:
 
 permissions:

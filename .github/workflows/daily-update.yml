@@ -1,12 +1,16 @@
 name: Atualizacao diaria e deploy
 
-# Roda dias uteis as 07:00 BRT (10:00 UTC): atualiza o painel com o Claude Code,
+# Roda dias uteis por volta das 07:07 BRT (10:07 UTC): atualiza o painel com o Claude Code,
 # faz commit e publica no Netlify. Requer o secret ANTHROPIC_API_KEY.
 # OBS (avancado): a etapa de atualizacao usa o Claude Code em modo nao interativo
 # e depende de acesso a web/fontes. Se falhar, o deploy do index.html atual ainda ocorre.
+# O `schedule` do GitHub Actions e "best effort" (nao garantido) -- a documentacao
+# oficial avisa que execucoes podem atrasar ou nao disparar em horarios de pico,
+# e o topo da hora (:00) e o horario mais concorrido. Por isso o cron roda em :07,
+# nao em :00, para reduzir (nao eliminar) o risco de atraso/nao disparo.
 on:
   schedule:
-    - cron: '0 10 * * 1-5'
+    - cron: '7 10 * * 1-5'
   workflow_dispatch:
 
 permissions:
