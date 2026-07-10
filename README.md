@@ -34,11 +34,12 @@ Confirme a criação do site; ao final aparece a URL pública (ex.: `agrocore-pa
 ```
 
 ## Atualização automática diária (Code como dono único)
-Agende (cron no Linux/Mac; Agendador de Tarefas no Windows) dias úteis às 7h:
+A atualização diária já roda via GitHub Actions (`daily-update.yml`, ver seção abaixo) — não depende
+de nenhuma máquina local ligada. Se preferir rodar via cron local em vez do GitHub Actions:
 ```bash
-0 7 * * 1-5  cd /caminho/AgroCore-Painel && claude -p "$(cat rotina-diaria.md)" && ./deploy.sh
+8 6 * * 1-5  cd /caminho/AgroCore-Painel && claude -p "$(cat rotina-diaria.md)" && ./deploy.sh
 ```
-- A máquina precisa estar ligada no horário (ou use GitHub Actions — peça e eu incluo o workflow).
+- Nesse caso a máquina precisa estar ligada no horário.
 - A rotina edita `index.html` (dados, datas, séries dos gráficos) e o `deploy.sh` republica.
 
 ## Fontes por bloco
@@ -50,7 +51,7 @@ Não inventar: dados não confirmados ficam "a confirmar/n/d". Projeções e rel
 ## Deploy automático na nuvem (GitHub Actions)
 Dois workflows já incluídos em `.github/workflows/`:
 - `deploy.yml` — publica no Netlify a cada push na `main` (ou manualmente em Actions → Run workflow). **Confiável, é o núcleo.**
-- `daily-update.yml` — dias úteis às 07:00 BRT: atualiza o `index.html` com o Claude Code, faz commit e publica. **Avançado/opcional** (depende de acesso a web/fontes no runner).
+- `daily-update.yml` — dias úteis por volta das 06:08 BRT: atualiza o `index.html` com o Claude Code, faz commit e publica. **Avançado/opcional** (depende de acesso a web/fontes no runner).
 
 ### Como ativar
 1. Suba esta pasta para um repositório no GitHub (branch `main`) e habilite Actions.
