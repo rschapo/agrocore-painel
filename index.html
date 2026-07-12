@@ -43,11 +43,11 @@ tr:last-child td { border-bottom: none; }
 .impact .what { font-weight:700; font-size:14px; }
 .impact .why { font-size:13px; color:#334155; margin-top:3px; }
 .impact .eff { font-size:13px; color:#2e6b33; margin-top:3px; }
-.news-item { padding: 10px 0; border-bottom: 1px solid #f0f1f3; }
-.news-item:last-child { border-bottom: none; }
-.news-item .headline { font-weight: 600; font-size: 14px; }
-.news-item .ctx { font-size: 13px; color: #4b5563; margin-top: 2px; }
-.news-item a { color:#2e6b33; }
+.news-item { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:12px 14px; margin-bottom:10px; }
+.news-item .headline { font-weight: 700; font-size: 14px; }
+.news-item .ctx { font-size: 13px; color: #4b5563; margin-top: 4px; }
+.news-item .meta { font-size: 12px; color: #6b7280; margin-top: 7px; }
+.news-item a { color:#2e6b33; font-weight:600; }
 .tag { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .3px; padding: 2px 7px; border-radius: 5px; margin-right: 5px; vertical-align: middle; }
 .t-alta { background: #fee2e2; color: #b91c1c; } .t-media { background: #fef3c7; color: #b45309; } .t-baixa { background: #e0e7ff; color: #4338ca; }
 .t-br { background: #ecfdf5; color: #059669; } .t-int { background: #eff6ff; color: #2563eb; }
@@ -502,40 +502,25 @@ tr:last-child td { border-bottom: none; }
 <!-- NOTÍCIAS -->
 <section class="panel" id="noticias">
   <div class="section-title">Notícias — hoje e ontem (Brasil, EUA, Europa · financeiro & agro)</div>
-  <table>
-    <thead><tr><th>Tema</th><th>Notícia</th><th>Fonte</th><th>Relevância</th><th>Impacto provável</th></tr></thead>
-    <tbody>
-      <tr><td>Macro Brasil</td><td style="text-align:left">IPCA de junho sobe apenas 0,16% (consenso ~0,31%) e desacelera a 4,64% em 12 meses; alimentos (-0,24%) e combustíveis (-0,48%) puxam o alívio</td><td><a class="dllink" href="https://www.infomoney.com.br/economia/ipca-inflacao-junho-2026-dados-ibge/">InfoMoney</a></td><td><span class="tag t-alta">Alta</span></td><td>juros, crédito, inflação</td></tr>
-      <tr><td>Agro Brasil</td><td style="text-align:left">Café arábica CEPEA sobe +2,95% (R$ 1.762,83/sc), +11,66% no mês, com oferta de bebida fina restrita e colheita 26/27 lenta (~52%)</td><td><a class="dllink" href="https://www.noticiasagricolas.com.br/cotacoes/cafe">Notícias Agrícolas</a></td><td><span class="tag t-media">Média</span></td><td>agro, margem, exportação</td></tr>
-      <tr><td>Geopolítica / Energia</td><td style="text-align:left">Tensão EUA-Irã segue ativa no Estreito de Ormuz; petróleo volátil em torno de US$ 77-78 mantém prêmio de risco energético</td><td><a class="dllink" href="https://br.advfn.com/jornal/2026/07/petroleo-brent-wti-queda-impasse-eua-ira-catar">ADVFN</a></td><td><span class="tag t-alta">Alta</span></td><td>custos, inflação, energia</td></tr>
-      <tr><td>Mercado externo</td><td style="text-align:left">Mercado passa a ver o Fed mantendo juros na reunião de 28-29/jul após payroll de junho mais fraco; alta ainda provável em setembro</td><td><a class="dllink" href="https://www.infomoney.com.br/economia/mercado-ve-manutencao-dos-juros-pelo-fed-em-julho-e-alta-em-setembro/">InfoMoney</a></td><td><span class="tag t-media">Média</span></td><td>juros globais, câmbio</td></tr>
-      <tr><td>Câmbio / Bolsa</td><td style="text-align:left">No último fechamento (9/jul) o Ibovespa subiu +1,22% (172.742) e o dólar caiu a R$ 5,1238, menor fechamento em 3 semanas</td><td><a class="dllink" href="https://www.infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-09072026/">InfoMoney</a></td><td><span class="tag t-alta">Alta</span></td><td>bolsas, câmbio</td></tr>
-      <tr><td>Proteína / Exportação</td><td style="text-align:left">Exportação de frango bate recorde histórico no 1º semestre (2,936 mi t, +12,9% a/a); suína tem 1º sem. recorde apesar de junho -3,5% a/a</td><td><a class="dllink" href="https://afnews.com.br/exportacoes-de-carne-de-frango-tiveram-melhor-primeiro-semestre-da-historia/">AF News</a></td><td><span class="tag t-media">Média</span></td><td>agro, exportação, margem</td></tr>
-      <tr><td>Sanitário</td><td style="text-align:left">MAPA prorroga por mais 180 dias a emergência zoossanitária por gripe aviária (H5N1 em aves silvestres); medida preventiva, sem foco comercial ativo</td><td><a class="dllink" href="https://www.gov.br/agricultura/pt-br/assuntos/noticias/2026/mapa-prorroga-por-mais-180-dias-o-estado-de-emergencia-zoossanitaria-por-gripe-aviaria">MAPA</a></td><td><span class="tag t-media">Média</span></td><td>agro, exportação, sanitário</td></tr>
-      <tr><td>Lácteos / Mundo</td><td style="text-align:left">Global Dairy Trade recua 4,9% no Evento 407 (US$ 3.793/t) — 3º recuo seguido; cheddar -12,3%, muçarela +3,8%</td><td><a class="dllink" href="https://www.globaldairytrade.info/en/gdt-events/gdt-price-index/">GDT</a></td><td><span class="tag t-media">Média</span></td><td>agro, exportação, margem</td></tr>
-    </tbody>
-  </table>
+  <div class="news-item"><div class="headline">IPCA de junho sobe apenas 0,16% (consenso ~0,31%) e desacelera a 4,64% em 12 meses <span class="tag t-alta">Alta</span></div><div class="ctx">Alimentos (-0,24%) e combustíveis (-0,48%) puxam o alívio.</div><div class="meta">📁 Macro Brasil · impacto: juros, crédito, inflação · <a class="dllink" href="https://www.infomoney.com.br/economia/ipca-inflacao-junho-2026-dados-ibge/">InfoMoney</a></div></div>
+  <div class="news-item"><div class="headline">Café arábica CEPEA sobe +2,95% (R$ 1.762,83/sc) <span class="tag t-media">Média</span></div><div class="ctx">+11,66% no mês, com oferta de bebida fina restrita e colheita 26/27 lenta (~52%).</div><div class="meta">📁 Agro Brasil · impacto: agro, margem, exportação · <a class="dllink" href="https://www.noticiasagricolas.com.br/cotacoes/cafe">Notícias Agrícolas</a></div></div>
+  <div class="news-item"><div class="headline">Tensão EUA-Irã segue ativa no Estreito de Ormuz <span class="tag t-alta">Alta</span></div><div class="ctx">Petróleo volátil em torno de US$ 77-78 mantém prêmio de risco energético.</div><div class="meta">📁 Geopolítica / Energia · impacto: custos, inflação, energia · <a class="dllink" href="https://br.advfn.com/jornal/2026/07/petroleo-brent-wti-queda-impasse-eua-ira-catar">ADVFN</a></div></div>
+  <div class="news-item"><div class="headline">Mercado passa a ver o Fed mantendo juros na reunião de 28-29/jul <span class="tag t-media">Média</span></div><div class="ctx">Após payroll de junho mais fraco; alta ainda provável em setembro.</div><div class="meta">📁 Mercado externo · impacto: juros globais, câmbio · <a class="dllink" href="https://www.infomoney.com.br/economia/mercado-ve-manutencao-dos-juros-pelo-fed-em-julho-e-alta-em-setembro/">InfoMoney</a></div></div>
+  <div class="news-item"><div class="headline">Ibovespa subiu +1,22% (172.742) e dólar caiu a R$ 5,1238 <span class="tag t-alta">Alta</span></div><div class="ctx">No último fechamento (9/jul); menor fechamento do dólar em 3 semanas.</div><div class="meta">📁 Câmbio / Bolsa · impacto: bolsas, câmbio · <a class="dllink" href="https://www.infomoney.com.br/mercados/ibovespa-hoje-bolsa-de-valores-ao-vivo-09072026/">InfoMoney</a></div></div>
+  <div class="news-item"><div class="headline">Exportação de frango bate recorde histórico no 1º semestre <span class="tag t-media">Média</span></div><div class="ctx">2,936 mi t, +12,9% a/a; suína tem 1º sem. recorde apesar de junho -3,5% a/a.</div><div class="meta">📁 Proteína / Exportação · impacto: agro, exportação, margem · <a class="dllink" href="https://afnews.com.br/exportacoes-de-carne-de-frango-tiveram-melhor-primeiro-semestre-da-historia/">AF News</a></div></div>
+  <div class="news-item"><div class="headline">MAPA prorroga por mais 180 dias a emergência zoossanitária por gripe aviária <span class="tag t-media">Média</span></div><div class="ctx">H5N1 em aves silvestres; medida preventiva, sem foco comercial ativo.</div><div class="meta">📁 Sanitário · impacto: agro, exportação, sanitário · <a class="dllink" href="https://www.gov.br/agricultura/pt-br/assuntos/noticias/2026/mapa-prorroga-por-mais-180-dias-o-estado-de-emergencia-zoossanitaria-por-gripe-aviaria">MAPA</a></div></div>
+  <div class="news-item"><div class="headline">Global Dairy Trade recua 4,9% no Evento 407 (US$ 3.793/t) <span class="tag t-media">Média</span></div><div class="ctx">3º recuo seguido; cheddar -12,3%, muçarela +3,8%.</div><div class="meta">📁 Lácteos / Mundo · impacto: agro, exportação, margem · <a class="dllink" href="https://www.globaldairytrade.info/en/gdt-events/gdt-price-index/">GDT</a></div></div>
 
   <div class="section-title">Maquinário agro, lançamentos & eventos</div>
-  <table>
-    <thead><tr><th>Item</th><th>Situação</th></tr></thead>
-    <tbody>
-      <tr><td>Lançamentos 2026</td><td style="text-align:left">John Deere traz ao Brasil os tratores da série 5M e o "Essential Package" para culturas especiais; AGCO oferece retrofits de pulverização direcionada de fábrica</td></tr>
-      <tr><td>Eventos</td><td style="text-align:left">Expointer 2026 (49ª ed.) confirmada para 29/08 a 06/09 em Esteio/RS — monitorar lançamentos e negócios de máquinas</td></tr>
-    </tbody>
-  </table>
+  <div class="news-item"><div class="headline">Lançamentos 2026</div><div class="ctx">John Deere traz ao Brasil os tratores da série 5M e o "Essential Package" para culturas especiais; AGCO oferece retrofits de pulverização direcionada de fábrica.</div></div>
+  <div class="news-item"><div class="headline">Eventos</div><div class="ctx">Expointer 2026 (49ª ed.) confirmada para 29/08 a 06/09 em Esteio/RS — monitorar lançamentos e negócios de máquinas.</div></div>
 
   <div class="section-title">Top 5 temas mais mencionados no mercado</div>
-  <table>
-    <thead><tr><th>#</th><th>Tema</th><th>Por quê</th></tr></thead>
-    <tbody>
-      <tr><td>1</td><td style="text-align:left">IPCA de junho abaixo do esperado (+0,16%; 4,64% em 12m)</td><td>Alívio de alimentos e combustíveis; leitura dovish para a Selic</td></tr>
-      <tr><td>2</td><td style="text-align:left">Conflito EUA-Irã / Ormuz e petróleo volátil</td><td>Risco geopolítico e energético segue em aberto</td></tr>
-      <tr><td>3</td><td style="text-align:left">Fed deve manter juros em 28-29/jul</td><td>Payroll fraco; alta ainda provável em setembro</td></tr>
-      <tr><td>4</td><td style="text-align:left">Café arábica em rali (+2,95% no dia, +11,66% no mês)</td><td>Oferta de bebida fina restrita e colheita lenta</td></tr>
-      <tr><td>5</td><td style="text-align:left">Dólar em mínima de 3 semanas (R$ 5,12) e Ibovespa nos 172 mil</td><td>Real forte corrói receita de soja/milho e proteína</td></tr>
-    </tbody>
-  </table>
+  <div class="news-item"><div class="headline">1. IPCA de junho abaixo do esperado (+0,16%; 4,64% em 12m)</div><div class="ctx">Alívio de alimentos e combustíveis; leitura dovish para a Selic.</div></div>
+  <div class="news-item"><div class="headline">2. Conflito EUA-Irã / Ormuz e petróleo volátil</div><div class="ctx">Risco geopolítico e energético segue em aberto.</div></div>
+  <div class="news-item"><div class="headline">3. Fed deve manter juros em 28-29/jul</div><div class="ctx">Payroll fraco; alta ainda provável em setembro.</div></div>
+  <div class="news-item"><div class="headline">4. Café arábica em rali (+2,95% no dia, +11,66% no mês)</div><div class="ctx">Oferta de bebida fina restrita e colheita lenta.</div></div>
+  <div class="news-item"><div class="headline">5. Dólar em mínima de 3 semanas (R$ 5,12) e Ibovespa nos 172 mil</div><div class="ctx">Real forte corrói receita de soja/milho e proteína.</div></div>
   <div class="legend">Ranking e monitoramento de redes (LinkedIn/Instagram de grandes empresas e influenciadores) dependem de conector específico — ver nota no chat. A rotina preenche este ranking com base nas notícias do dia.</div>
 </section>
 
