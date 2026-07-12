@@ -15,6 +15,17 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-07-12 — Cobertura de fim de semana/feriado na janela de pesquisa
+
+A instrução original dizia "pesquise as últimas 24h", o que numa segunda-feira (ou 1º dia útil
+após feriado) cobriria só a madrugada anterior — perdendo o pregão de sexta e qualquer fato
+relevante de sábado/domingo (decisões de OPEP+ de fim de semana, geopolítica, clima/safra,
+sanitário). Levantado pelo usuário antes da primeira segunda-feira real desta automação (o
+pipeline só existe desde 09/07, uma quinta-feira). Regra reescrita: a janela agora é "desde a
+última edição publicada" (verificando a data em "Atualizado em" no cabeçalho), com instrução
+explícita de cobrir o fim de semana/feriado inteiro e usar a data certa do último pregão realmente
+ocorrido. Ainda não validado com uma segunda-feira real — primeira oportunidade de teste é 13/07.
+
 ## 2026-07-12 — Notícias: tabela → cards (mobile-first)
 
 A tabela de 5 colunas da aba Notícias dificultava a leitura no celular. Reaproveitada a classe CSS

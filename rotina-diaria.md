@@ -15,6 +15,7 @@ Enfatize IMPACTO EMPRESARIAL: "o que aconteceu" → "por que importa" → "efeit
 - Toda seta ▲/▼ deve vir com o **número da variação (%)**; nunca deixe seta sem magnitude. Se a variação não estiver disponível, use classe `flat`/neutra e marque o número como "a confirmar" — não use seta direcional "solta".
 - Célula marcada "a confirmar"/"n/d" **não recebe seta ▲/▼ nem % de variação** na mesma linha. Direção/variação só quando houver valor confirmado com fonte; caso contrário, mantenha o texto neutro (ex.: "aguardando settle oficial").
 - Ao deixar uma célula em "a confirmar"/"n/d", anexe a **data de início da pendência** (ex.: `a confirmar (desde 9/jul)`). Se uma célula não-estrutural permanecer pendente por **mais de 3 dias úteis**, sinalize no Briefing como item a resolver. Colunas estruturais de cadência conhecida (séries semana/30d/12m das proteínas via CEPEA) ficam isentas, desde que a legenda explique a cadência.
+- **Cobertura de fim de semana/feriado (esta rotina só roda em dias úteis):** a janela de pesquisa NÃO é "últimas 24h" — é **desde a última edição publicada** (verifique a data em "Atualizado em" no cabeçalho atual do `index.html`) até agora. Numa segunda-feira (ou no primeiro dia útil após feriado), isso significa cobrir sexta-feira **e** todo o sábado/domingo/feriado, não só a noite anterior. Fatos relevantes frequentemente acontecem nesses dias sem pregão (decisões de OPEP+, eventos geopolíticos, anúncios de governo, clima/safra, sanitário) e não podem ficar de fora. Para fechamentos de mercado (bolsas, câmbio, commodities negociadas em bolsa), use o **último pregão realmente ocorrido** e cite a data certa (numa segunda, isso é a sexta-feira anterior — não existe pregão sábado/domingo). Se a edição cobrir mais de 1 dia, mencione isso explicitamente no resumo executivo (ex.: "Cobrindo o período de sexta a hoje, segunda-feira, ...") para o leitor saber que nada ficou de fora.
 
 ## Fontes
 CEPEA (soja, milho, arroz, café, boi, frango, suíno, ovos, leite cru e derivados, açúcar/etanol, bezerro); Agrolink (grãos por praça/cidade — referencial); BCB (PTAX/SGS/Focus/Copom); IBGE/SIDRA; Conab; USDA/WASDE; B3 (BGI/CCM); Comex Stat/AgroStat (exportação); GDT (lácteos); MAPA/ABPA/WOAH (sanitário); mercado (Ibovespa, S&P, Nasdaq, Dow, VIX, DXY, Brent/WTI, ouro, USD/EUR/JPY).
@@ -55,7 +56,7 @@ Regras desta tabela:
 - **Sobre completude**: nem toda combinação UF×cultura tem cotação física dedicada disponível diariamente em fontes públicas (Agrolink e páginas de cotação de balcão costumam bloquear scraping ou exigir login). É esperado e aceitável que várias células fiquem "a confirmar (desde DD/mmm)" por vários dias — não force estimativa para preencher. Priorize confirmar novas praças aos poucos a cada execução, em vez de tentar fechar a tabela inteira de uma vez.
 
 ## Passos
-1. Pesquise os indicadores e notícias das últimas 24h (busca/scraping das fontes acima).
+1. Pesquise os indicadores e notícias **desde a última edição publicada** (não apenas "últimas 24h" — ver regra de cobertura de fim de semana/feriado acima), usando as fontes listadas.
 2. Edite `index.html` aplicando as atualizações e acumulando as séries dos gráficos.
 3. Rode `./deploy.sh` para republicar.
 
