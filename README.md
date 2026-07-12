@@ -49,9 +49,10 @@ CEPEA (preços de proteínas e grãos) · Agrolink (grãos por praça/cidade, re
 Não inventar: dados não confirmados ficam "a confirmar/n/d". Projeções e relações de troca são derivadas. Agrolink é referencial (não auditado); CEPEA é indicador oficial. Conteúdo informativo, não é recomendação de investimento.
 
 ## Deploy automático na nuvem (GitHub Actions)
-Dois workflows já incluídos em `.github/workflows/`:
+Três workflows já incluídos em `.github/workflows/`:
 - `deploy.yml` — publica no Netlify a cada push na `main` (ou manualmente em Actions → Run workflow). **Confiável, é o núcleo.**
 - `daily-update.yml` — dias úteis por volta das 06:08 BRT: atualiza o `index.html` com o Claude Code, faz commit e publica. **Avançado/opcional** (depende de acesso a web/fontes no runner).
+- `weekly-review.yml` — segundas por volta das 08:12 BRT: revisa os commits/logs da semana e abre uma Issue com um relatório PDCA (Check/Act) sugerindo ajustes em `rotina-diaria.md`. Não edita nada sozinho.
 
 ### Como ativar
 1. Suba esta pasta para um repositório no GitHub (branch `main`) e habilite Actions.
@@ -62,3 +63,6 @@ Dois workflows já incluídos em `.github/workflows/`:
 3. Pronto: o `deploy.yml` publica a cada push; o `daily-update.yml` roda sozinho nos dias úteis.
 
 Observação: com o deploy diário no GitHub Actions rodando, o Code/CI é o dono do processo — **desative a tarefa diária do Cowork** para não haver duas rotinas atualizando em paralelo.
+
+## Changelog
+Mudanças de engenharia/processo (workflows, regras da rotina, layout, escopo) ficam registradas em [`CHANGELOG.md`](./CHANGELOG.md), em ordem cronológica. Não registra as atualizações diárias de conteúdo (isso já fica no histórico de commits do `agrocore-bot`). Documentação completa (visão geral, arquitetura, fontes de dados, escopo, manual de continuidade) em `Claude\Projects\AgroCore (Corporativo)\09 - Painel Diario (Mercado, Macro e Agro)\`.
