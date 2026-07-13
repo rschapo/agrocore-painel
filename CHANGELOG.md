@@ -15,6 +15,19 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-07-13 — Rótulo de praça-por-cultura da tabela de UF aplicado (estava pendente desde 10/07)
+
+A regra da praça-por-cultura foi só *preparada* em 10/07 (CSS + instrução), mas o rótulo de fato
+(`UF (sj: X | mi: Y | ar: Z)`) nunca chegou a ser aplicado — a rotina diária teve só 1 oportunidade
+real desde então (13/07) e nessa rodada atualizou apenas a linha "Brasil (média CEPEA)", sem
+mexer nos rótulos. Aplicado agora diretamente (reformatação mecânica, usando a tabela de praças-
+padrão já definida em `rotina-diaria.md` — não depende de dado novo). `rotina-diaria.md` reforçado
+com: (1) deixar explícito que manter o rótulo não é opcional/não depende de achar dado novo, e (2)
+uma tática de busca mais concreta (busca pontual por célula: `cotação <cultura> saca <cidade> <UF>
+hoje`, priorizando Notícias Agrícolas/Canal Rural, que já retornaram dado com sucesso, antes de
+Agrolink/CEPEA diretos).
+Commit: ver `index.html` e `rotina-diaria.md`.
+
 ## 2026-07-13 — 3ª tentativa de disparo automático (05:42/06:38/07:22 BRT)
 
 A pedido do usuário, ampliado de 2 para **3 tentativas diárias** de disparo automático:
