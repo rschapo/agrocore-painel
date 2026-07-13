@@ -15,6 +15,19 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-07-13 — Cron de reserva no daily-update (2ª falha de disparo do schedule)
+
+O `schedule` não disparou de novo (2ª vez — a 1ª foi em 10/07), mesmo com o cron já deslocado do
+topo da hora. Investigado: workflow YAML íntegro, workflow "active", sem incidente óbvio no
+GitHub Status. Conclusão: o gatilho `schedule` do GitHub Actions é mais instável do que o esperado
+mesmo fora do topo da hora — offset sozinho não resolve. Corrigido com um **segundo horário de
+disparo** (`38 10 * * 1-5` = 07:38 BRT, ~1h30 depois do principal) como reserva, mais um passo
+"guard" que verifica se já existe commit do `agrocore-bot` datado de hoje: se sim, pula o resto do
+job (evita rodar/gastar crédito em dobro num dia em que os dois cronjobs dispararem). O guard só
+vale para o evento `schedule` — disparo manual (`workflow_dispatch`) sempre roda, mesmo que já
+tenha rodado hoje. Corrigido painel do dia via disparo manual.
+Commit: ver `.github/workflows/daily-update.yml`.
+
 ## 2026-07-12 — Cobertura de fim de semana/feriado na janela de pesquisa
 
 A instrução original dizia "pesquise as últimas 24h", o que numa segunda-feira (ou 1º dia útil

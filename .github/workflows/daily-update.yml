@@ -6,11 +6,15 @@ name: Atualizacao diaria e deploy
 # e depende de acesso a web/fontes. Se falhar, o deploy do index.html atual ainda ocorre.
 # O `schedule` do GitHub Actions e "best effort" (nao garantido) -- a documentacao
 # oficial avisa que execucoes podem atrasar ou nao disparar em horarios de pico,
-# e o topo da hora (:00) e o horario mais concorrido. Por isso o cron roda em :08,
-# nao em :00, para reduzir (nao eliminar) o risco de atraso/nao disparo.
+# e o topo da hora (:00) e o horario mais concorrido. Ja tivemos DOIS dias (10/07 e 13/07)
+# em que o schedule simplesmente nao disparou, mesmo fora do topo da hora -- entao ha um
+# segundo cron de reserva as 07:38 BRT (10:38 UTC). Um guard (job "Verificar se ja rodou
+# hoje") pula a execucao de reserva se o horario principal ja tiver rodado com sucesso,
+# para nao processar/gastar credito em dobro num dia em que os dois dispararem.
 on:
   schedule:
     - cron: '8 9 * * 1-5'
+    - cron: '38 10 * * 1-5'
   workflow_dispatch:
 
 permissions:
@@ -24,12 +28,30 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Verificar se ja rodou hoje (evita duplicar no cron de reserva)
+        id: guard
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          LAST_BOT_DATE="$(git log -1 --author=agrocore-bot --format=%cd --date=format:%Y-%m-%d -- index.html 2>/dev/null || true)"
+          TODAY="$(date -u +%F)"
+          if [ "$LAST_BOT_DATE" = "$TODAY" ]; then
+            echo "Ja existe commit do agrocore-bot hoje ($TODAY) -- pulando esta execucao (provavelmente o cron principal ja rodou e este e o de reserva)."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/setup-node@v4
+        if: steps.guard.outputs.skip != 'true'
         with:
           node-version: '20'
       - name: Instalar ferramentas
+        if: steps.guard.outputs.skip != 'true'
         run: npm install -g @anthropic-ai/claude-code netlify-cli
       - name: Atualizar painel com o Claude
+        if: steps.guard.outputs.skip != 'true'
         continue-on-error: true
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -43,6 +65,7 @@ jobs:
           claude -p "$PROMPT" --permission-mode acceptEdits --allowedTools "WebSearch,WebFetch" 2>&1 | tee /tmp/claude-output.log
       - name: Checar se houve atualizacao real
         id: check
+        if: steps.guard.outputs.skip != 'true'
         run: |
           if [ -z "$(git status --porcelain -- index.html)" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
@@ -50,7 +73,7 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
       - name: Alertar falha (index.html nao mudou)
-        if: steps.check.outputs.changed == 'false'
+        if: steps.guard.outputs.skip != 'true' && steps.check.outputs.changed == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -72,6 +95,7 @@ jobs:
             --body-file /tmp/alert-body.md
       - name: Commit das mudancas
         id: commit
+        if: steps.guard.outputs.skip != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -90,7 +114,7 @@ jobs:
             fi
           fi
       - name: Alertar falha (push nao chegou no GitHub)
-        if: steps.commit.outputs.push_failed == 'true'
+        if: steps.guard.outputs.skip != 'true' && steps.commit.outputs.push_failed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -106,6 +130,7 @@ jobs:
             --title "Alerta: push da rotina diaria de $(date +%F) falhou (git divergente do site)" \
             --body-file /tmp/alert-push-body.md
       - name: Deploy (producao)
+        if: steps.guard.outputs.skip != 'true'
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
