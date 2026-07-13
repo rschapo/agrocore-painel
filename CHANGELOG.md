@@ -37,7 +37,12 @@ sanitário). Levantado pelo usuário antes da primeira segunda-feira real desta 
 pipeline só existe desde 09/07, uma quinta-feira). Regra reescrita: a janela agora é "desde a
 última edição publicada" (verificando a data em "Atualizado em" no cabeçalho), com instrução
 explícita de cobrir o fim de semana/feriado inteiro e usar a data certa do último pregão realmente
-ocorrido. Ainda não validado com uma segunda-feira real — primeira oportunidade de teste é 13/07.
+ocorrido.
+
+**Validado em 13/07** (primeira segunda-feira real): o cabeçalho e o resumo executivo cobriram
+corretamente "sexta (10/jul) a hoje, segunda-feira (13/jul)", usando o fechamento de sexta como
+último pregão e trazendo fatos do fim de semana que teriam passado batido (WASDE de 10/jul, ameaça
+de tarifa dos EUA sobre o Brasil com decisão esperada por volta de 15/jul).
 
 ## 2026-07-12 — Notícias: tabela → cards (mobile-first)
 
