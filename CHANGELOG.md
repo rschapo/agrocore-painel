@@ -15,6 +15,34 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-07-13 — Correção estrutural da tabela "Variação por proteína" (preparado para amanhã)
+
+Diagnóstico da tabela Dia/Semana/Mês/30d/12m (aba Proteínas), quase toda "a confirmar" apesar da
+rotina rodar todo dia: (1) a rotina nunca usava o próprio histórico acumulado no `seriesMap` para
+calcular Semana/Mês — só esperava uma fonte externa dar a variação pronta; (2) a série `suino`
+rastreava **MG** (flat, 3 pontos repetidos) enquanto a tabela mostra **"Suíno vivo (SP)"** —
+mismatch real entre o que é exibido e o que é calculado; (3) frango/ovos/leite recebiam ponto novo
+raríssimas vezes (ovos tinha 1 ponto só, de fevereiro).
+
+Decisão do usuário: suíno = **SP** (não MG). Leite fica **pendente** entre "Leite ao produtor"
+(CEPEA, captação, mensal) e "Leite UHT" (varejo, o que está hoje no `seriesMap`) — 2 opções
+apresentadas, sem escolha ainda.
+
+Aplicado (sem tocar em nenhum valor "do dia" — a pedido do usuário, nenhuma atualização de
+conteúdo foi feita hoje, só preparação estrutural):
+- `rotina-diaria.md`: nova seção com a regra de calcular Semana/Mês/30d a partir do próprio
+  `seriesMap` (tolerância de dias, rótulo com a data exata usada), regra de acumular ponto diário
+  obrigatório nas 5 proteínas (mesmo sem mudança de valor), confirmação de suíno=SP, e a decisão
+  pendente do leite documentada para não ser resolvida sozinha por engano.
+- `index.html`: série `suino` corrigida de MG (3 pontos flat, errados) para SP (1 ponto real,
+  10/jul, R$ 5,28 — já publicado na tabela "Suíno vivo por praça", não é dado novo).
+- **12 meses**: nota registrada de que essa coluna não fecha organicamente tão cedo (série só
+  começou em jun/jul/2026) — está correto ficar "a confirmar" por meses, não é bug.
+
+Ainda **não testado**: a regra de auto-cálculo do `seriesMap` só vai rodar de verdade na próxima
+execução automática (amanhã, 14/07).
+Commit: ver `index.html` e `rotina-diaria.md`.
+
 ## 2026-07-13 — Descoberta e validação da fonte Grão Direto; 6 de 11 UFs preenchidas (soja/milho)
 
 A pedido do usuário ("avalie opções, seria interessante ter essa informação"), testada a própria
