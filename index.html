@@ -257,7 +257,7 @@ tr:last-child td { border-bottom: none; }
       <optgroup label="Câmbio"><option value="usd">USD/BRL</option><option value="eur">EUR/BRL</option><option value="jpy">JPY/BRL</option><option value="dxy">DXY</option></optgroup>
       <optgroup label="Bolsas"><option value="ibov">Ibovespa</option><option value="spx">S&amp;P 500</option><option value="nasdaq">Nasdaq</option><option value="dow">Dow Jones</option></optgroup>
       <optgroup label="Commodities"><option value="wti">Petróleo WTI</option><option value="ouro">Ouro</option><option value="soja">Soja</option><option value="milho">Milho</option><option value="cafe">Café arábica</option></optgroup>
-      <optgroup label="Proteínas"><option value="boi">Boi gordo</option><option value="frango">Frango</option><option value="suino">Suíno vivo</option><option value="ovos">Ovos</option><option value="leiteuht">Leite UHT</option></optgroup>
+      <optgroup label="Proteínas"><option value="boi">Boi gordo</option><option value="frango">Frango</option><option value="suino">Suíno vivo</option><option value="ovos">Ovos</option><option value="leite">Leite ao produtor</option></optgroup>
       <optgroup label="Correção monetária"><option value="ipca">IPCA (R12)</option><option value="igpm">IGP-M (R12)</option></optgroup>
     </select>
   </div>
@@ -382,10 +382,10 @@ tr:last-child td { border-bottom: none; }
       <tr><td>Frango</td><td class="nd">a confirmar (desde 3/jul)</td><td class="nd">a confirmar</td><td class="down">-0,83%</td><td class="nd">a confirmar</td><td class="nd">a confirmar</td></tr>
       <tr><td>Suíno vivo (SP)</td><td class="down">-0,75%</td><td class="nd">a confirmar</td><td class="nd">a confirmar</td><td class="nd">a confirmar</td><td class="nd">a confirmar</td></tr>
       <tr><td>Ovos (vermelho)</td><td class="nd">a confirmar</td><td class="down">-0,48%</td><td class="nd">a confirmar</td><td class="nd">a confirmar</td><td class="nd">a confirmar</td></tr>
-      <tr><td>Leite (produtor)</td><td class="nd">a confirmar</td><td class="nd">a confirmar</td><td class="nd">a confirmar</td><td class="nd">a confirmar</td><td class="nd">a confirmar</td></tr>
+      <tr><td>Leite (produtor)</td><td class="nd">n/d</td><td class="nd">n/d</td><td class="nd">a confirmar</td><td class="nd">a confirmar</td><td class="nd">a confirmar</td></tr>
     </tbody>
   </table>
-  <div class="legend">Colunas "a confirmar" são preenchidas pela rotina diária conforme o CEPEA publica; variações do boi refletem o indicador CEPEA/B3.</div>
+  <div class="legend">Colunas "a confirmar" são preenchidas pela rotina diária conforme o CEPEA publica; variações do boi refletem o indicador CEPEA/B3. Leite (produtor) é publicado pelo CEPEA em cadência <strong>mensal</strong> (captação) — as colunas Dia/Semana não se aplicam a essa métrica (n/d).</div>
 
   <div class="section-title">Custo de ração & margem (relação de troca)</div>
   <table>
@@ -605,7 +605,7 @@ tr:last-child td { border-bottom: none; }
     frango:{label:'Frango (R$/kg)',unit:'R$',pts:[{d:'2026-07-08',v:7.18},{d:'2026-07-09',v:7.19}]},
     suino:{label:'Suíno vivo SP, posto (R$/kg)',unit:'R$',pts:[{d:'2026-07-10',v:5.28}]},
     ovos:{label:'Ovos (R$/cx 30dz)',unit:'R$',pts:[{d:'2026-02-20',v:147.98}]},
-    leiteuht:{label:'Leite UHT (R$/L)',unit:'R$',pts:[{d:'2026-06-30',v:4.35}]},
+    leite:{label:'Leite ao produtor (R$/L)',unit:'R$',pts:[{d:'2026-06-30',v:2.6474}]},
     ipca:{label:'IPCA (R12)',unit:'%',pts:[{d:'2026-07-06',v:4.72},{d:'2026-07-10',v:4.64}]},
     igpm:{label:'IGP-M (R12)',unit:'%',pts:[{d:'2026-07-06',v:3.16}]}
   };

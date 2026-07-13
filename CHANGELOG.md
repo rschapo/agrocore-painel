@@ -15,6 +15,17 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-07-13 — Decisão do leite: "Leite ao produtor" (opção 1)
+
+Usuário escolheu a opção 1 da decisão pendente registrada mais cedo hoje: a série de leite passa a
+rastrear **"Leite ao produtor"** (CEPEA, captação, R$/litro, Média Brasil) — não mais UHT/varejo.
+Renomeada a série no `seriesMap` de `leiteuht` para `leite` (valor real já publicado na tabela
+comparativa: R$ 2,6474, ref. jun/26 — não é dado novo); opção do seletor da aba Gráficos atualizada.
+Como o CEPEA publica esse indicador **mensalmente**, as colunas "Dia"/"Semana" da linha "Leite
+(produtor)" na tabela de variação passam a mostrar **"n/d"** (não se aplica) em vez de "a
+confirmar" — evita sugerir que um dado que estruturalmente não existe está "pendente".
+Commit: ver `index.html` e `rotina-diaria.md`.
+
 ## 2026-07-13 — Correção estrutural da tabela "Variação por proteína" (preparado para amanhã)
 
 Diagnóstico da tabela Dia/Semana/Mês/30d/12m (aba Proteínas), quase toda "a confirmar" apesar da
