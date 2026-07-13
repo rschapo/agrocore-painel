@@ -1,20 +1,23 @@
 name: Atualizacao diaria e deploy
 
-# Roda dias uteis por volta das 06:08 BRT (09:08 UTC): atualiza o painel com o Claude Code,
-# faz commit e publica no Netlify. Requer o secret ANTHROPIC_API_KEY.
-# OBS (avancado): a etapa de atualizacao usa o Claude Code em modo nao interativo
-# e depende de acesso a web/fontes. Se falhar, o deploy do index.html atual ainda ocorre.
-# O `schedule` do GitHub Actions e "best effort" (nao garantido) -- a documentacao
-# oficial avisa que execucoes podem atrasar ou nao disparar em horarios de pico,
-# e o topo da hora (:00) e o horario mais concorrido. Ja tivemos DOIS dias (10/07 e 13/07)
-# em que o schedule simplesmente nao disparou, mesmo fora do topo da hora -- entao ha um
-# segundo cron de reserva as 07:38 BRT (10:38 UTC). Um guard (job "Verificar se ja rodou
-# hoje") pula a execucao de reserva se o horario principal ja tiver rodado com sucesso,
-# para nao processar/gastar credito em dobro num dia em que os dois dispararem.
+# Roda dias uteis com ATE 3 TENTATIVAS de disparo automatico -- 05:42, 07:38 e 08:47 BRT
+# (08:42, 10:38 e 11:47 UTC): atualiza o painel com o Claude Code, faz commit e publica no
+# Netlify. Requer o secret ANTHROPIC_API_KEY.
+# OBS (avancado): a etapa de atualizacao usa o Claude Code em modo nao interativo e depende
+# de acesso a web/fontes. Se falhar, o deploy do index.html atual ainda ocorre.
+# O `schedule` do GitHub Actions e "best effort" (nao garantido) -- a documentacao oficial
+# avisa que execucoes podem atrasar ou nao disparar em horarios de pico (o topo da hora,
+# :00, e o mais concorrido -- por isso nenhum dos 3 horarios cai em :00). Ja tivemos DOIS
+# dias (10/07 e 13/07) em que o schedule simplesmente nao disparou nem uma vez, entao 3
+# tentativas por dia (a pedido do usuario) reduzem bastante a chance de um dia inteiro
+# sem atualizacao automatica. Um guard (job "Verificar se ja rodou hoje") pula as tentativas
+# seguintes assim que uma ja tiver rodado com sucesso, para nao processar/gastar credito em
+# dobro/triplo num dia em que mais de uma dispararem.
 on:
   schedule:
-    - cron: '8 9 * * 1-5'
+    - cron: '42 8 * * 1-5'
     - cron: '38 10 * * 1-5'
+    - cron: '47 11 * * 1-5'
   workflow_dispatch:
 
 permissions:
