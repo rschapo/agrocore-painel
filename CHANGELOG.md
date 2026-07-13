@@ -15,6 +15,21 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-07-13 — Descoberta e validação da fonte Grão Direto; 6 de 11 UFs preenchidas (soja/milho)
+
+A pedido do usuário ("avalie opções, seria interessante ter essa informação"), testada a própria
+tática de busca pontual recém-documentada. `WebSearch` por cidade trouxe resultados com datas
+conflitantes (não confiável), mas `WebFetch` direto nas páginas do **Grão Direto**
+(`graodireto.com.br/ofertas/<cultura>/<uf>/<cidade>/`) deu valores únicos e datados, confiáveis.
+Preenchidas com dado real (ref. 10/jul, exceto milho MG ref. 12/jul): soja e milho de **MT, MS,
+GO, MG, BA**, e soja de **RS**. SP, PR, SC, TO e MA/PA continuam "a confirmar" — o Grão Direto
+mostrou contradição nessas páginas (diz "preços não disponíveis" ao mesmo tempo em que lista
+ofertas de outras cidades) e por isso não foram usadas (regra de não inventar). `rotina-diaria.md`
+atualizado com a tática validada: usar `WebFetch` direto (não `WebSearch`), sempre conferir a data
+real da cotação (a página pode dizer "hoje" com cache de dias atrás), e não usar valor de página
+com contradição de disponibilidade.
+Commit: ver `index.html` e `rotina-diaria.md`.
+
 ## 2026-07-13 — Rótulo de praça-por-cultura da tabela de UF aplicado (estava pendente desde 10/07)
 
 A regra da praça-por-cultura foi só *preparada* em 10/07 (CSS + instrução), mas o rótulo de fato
