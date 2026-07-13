@@ -15,13 +15,14 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
-## 2026-07-13 — 3ª tentativa de disparo automático (05:42/07:38/08:47 BRT)
+## 2026-07-13 — 3ª tentativa de disparo automático (05:42/06:38/07:22 BRT)
 
 A pedido do usuário, ampliado de 2 para **3 tentativas diárias** de disparo automático:
-`05:42`, `07:38` e `08:47` BRT (`08:42`, `10:38`, `11:47` UTC) — nenhuma no topo da hora. O guard
-que já existia (pula se já houver commit do `agrocore-bot` datado de hoje) cobre as 3 tentativas
-igualmente, então dias normais continuam gastando crédito de API só uma vez, mesmo com mais
-horários configurados.
+`05:42`, `06:38` e `07:22` BRT (`08:42`, `09:38`, `10:22` UTC) — nenhuma no topo da hora. Horários
+ajustados uma vez logo em seguida (concentrados mais cedo, entre 05:42 e 07:22, em vez de se
+estender até 08:47). O guard que já existia (pula se já houver commit do `agrocore-bot` datado de
+hoje) cobre as 3 tentativas igualmente, então dias normais continuam gastando crédito de API só
+uma vez, mesmo com mais horários configurados.
 Commit: ver `.github/workflows/daily-update.yml`.
 
 ## 2026-07-13 — Cron de reserva no daily-update (2ª falha de disparo do schedule)
