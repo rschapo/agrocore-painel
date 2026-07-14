@@ -20,6 +20,19 @@ Enfatize IMPACTO EMPRESARIAL: "o que aconteceu" → "por que importa" → "efeit
 ## Fontes
 CEPEA (soja, milho, arroz, café, boi, frango, suíno, ovos, leite cru e derivados, açúcar/etanol, bezerro); Agrolink (grãos por praça/cidade — referencial); BCB (PTAX/SGS/Focus/Copom); IBGE/SIDRA; Conab; USDA/WASDE; B3 (BGI/CCM); Comex Stat/AgroStat (exportação); GDT (lácteos); MAPA/ABPA/WOAH (sanitário); mercado (Ibovespa, S&P, Nasdaq, Dow, VIX, DXY, Brent/WTI, ouro, USD/EUR/JPY).
 
+## Grãos & Softs (CBOT/ICE) — tabela da aba Commodities
+Essa tabela (soja, milho, trigo, café arábica ICE, açúcar #11, algodão em ¢/bu ou ¢/lb) ficava sempre "a confirmar (desde 9/jul)" porque não havia fonte/tática validada para settle de bolsa americana — só CEPEA (preço físico Brasil) estava documentado.
+
+**Fonte validada em 14/07: Investing.com.** Use `WebFetch` direto (não `WebSearch`) nas páginas de commodity, ex.:
+- Soja: `investing.com/commodities/us-soybeans`
+- Milho: `investing.com/commodities/us-corn`
+- Trigo: `investing.com/commodities/us-wheat`
+- Café arábica (ICE): `investing.com/commodities/us-coffee-c`
+- Açúcar #11: `investing.com/commodities/us-sugar-no11`
+- Algodão: `investing.com/commodities/us-cotton-no.2`
+
+Essas páginas dão preço, variação do dia (%) e horário de referência em tempo real (ET — mercado americano). **Isso é dado intradia, não o settle final do pregão** — rotule sempre como "Intradia DD/jul (~HHhMM BRT)" na Observação, não como fechamento. Se a rotina rodar de manhã (BRT), o mercado americano de grãos/softs pode já estar aberto (pré-mercado/sessão eletrônica) — está correto usar o valor intradia disponível nesse horário, só não confunda com "fechamento" (settle costuma sair só à tarde/noite BRT).
+
 ## O que atualizar por aba
 - **Grãos**: indicadores CEPEA (soja, milho, arroz, café); histórico/tendência; média Brasil; tabela "Valor de venda por estado (UF)" com **praça de referência por cultura** (ver seção dedicada abaixo — a cidade mais representativa pode mudar por cultura dentro do mesmo estado); safra/clima/logística.
 - **Proteínas**: comparativa; suíno vivo por praça CEPEA (indicador médio + SC, PR, RS, SP-5, MG — atenção: ~R$5,88 é MG, não SC); variação (dia/mês do CEPEA; semana/30d/12m da série); custo de ração & relação de troca (milho+farelo referenciados de Grãos); preços relativos; lácteos + GDT; boi (bezerro/BGI B3); exportação (Comex/AgroStat); status sanitário.

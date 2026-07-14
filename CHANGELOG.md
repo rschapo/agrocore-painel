@@ -15,6 +15,18 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-07-14 — Fonte validada para Grãos & Softs (CBOT/ICE): Investing.com
+
+Tabela "Grãos & Softs (CBOT/ICE)" (aba Commodities) ficava sempre "a confirmar (desde 9/jul)" —
+não havia fonte/tática documentada para settle de bolsa americana (só CEPEA/Brasil estava
+coberto). `WebFetch` direto nas páginas do **Investing.com** (`investing.com/commodities/us-*`)
+deu preço + variação do dia + horário em tempo real, limpo, para soja/milho/trigo/café ICE/
+açúcar #11/algodão — preenchidas as 6 células. É dado **intradia** (mercado americano em sessão,
+~08h52 BRT), não o settle final — rotulado como tal na Observação e na nota de metodologia do
+rodapé (que antes dizia genericamente "a confirmar"). `rotina-diaria.md` documenta as 6 URLs e o
+aviso de não confundir intradia com fechamento.
+Commit: ver `index.html` e `rotina-diaria.md`.
+
 ## 2026-07-14 — Gatilho externo (cron-job.org) como principal; guard estendido a workflow_dispatch
 
 3º dia seguido (10/07, 13/07, 14/07) em que o `schedule` nativo do GitHub Actions **não disparou
