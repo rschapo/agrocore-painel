@@ -15,6 +15,24 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-07-14 — Rodapé institucional AgroCore + contato no cabeçalho
+
+A pedido do usuário, adicionado rodapé institucional (visível em todas as abas, fora dos painéis
+que trocam por tab): logo (reaproveitado do `<header>` via JS, sem duplicar o base64 no arquivo),
+nome/link para `agrocoregestao.com.br`, frase de posicionamento, e 5 links de contato/redes
+(site, e-mail, WhatsApp, Instagram, LinkedIn) com ícones SVG inline e `aria-label`, mais a linha
+legal (razão social/CNPJ/cidade). Cores de marca: fundo `#17351F`, links/ícones `#C69E38`, texto
+branco. Também adicionado um bloco compacto de 4 ícones de contato no cabeçalho, ao lado do
+título — escondido em telas ≤700px (`.agc-header-contact{display:none}`) para não poluir mobile;
+o rodapé continua completo e acessível em qualquer tamanho de tela.
+
+Validado localmente (preview + inspeção DOM/CSS computado, já que a ferramenta de screenshot do
+navegador falhou nesta sessão): todos os links com `href`/`target`/`rel`/`aria-label` corretos,
+contraste de fundo exato (`rgb(23,53,31)`), logo do rodapé sem distorção (83×42px, mesma
+proporção do original), responsivo sem overflow horizontal em mobile (375px) nem desktop.
+Aprovado pelo usuário antes de publicar.
+Commit: ver `index.html`.
+
 ## 2026-07-14 — Fonte validada para Grãos & Softs (CBOT/ICE): Investing.com
 
 Tabela "Grãos & Softs (CBOT/ICE)" (aba Commodities) ficava sempre "a confirmar (desde 9/jul)" —

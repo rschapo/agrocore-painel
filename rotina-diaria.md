@@ -7,7 +7,7 @@ Enfatize IMPACTO EMPRESARIAL: "o que aconteceu" → "por que importa" → "efeit
 
 ## Regras
 - NÃO invente. Sem confirmação oficial → "a confirmar"/"n/d". Projeções e relações de troca = derivadas.
-- NÃO altere o bloco <header>/logo; só atualize a data em "Atualizado em ...".
+- NÃO altere o bloco <header>/logo; só atualize a data em "Atualizado em ...". Isso inclui o bloco `.agc-header-contact` (ícones de e-mail/WhatsApp/Instagram/LinkedIn ao lado do título) e o `<footer class="agc-footer">` institucional no fim da página (logo, contato, redes, linha legal com CNPJ) — **nunca remova, esvazie ou reformate esses dois blocos** (adicionados em 14/07/2026); eles não fazem parte do conteúdo de dados do dia.
 - Mantenha estrutura, CSS, abas e Chart.js. ACUMULE pontos novos em seriesMap sem apagar os antigos.
 - Notícias com LINK, relevância (alta/média/baixa) e impacto. Alerta em movimento fora do padrão e status sanitário.
 - **Se não conseguir acessar as fontes** (WebSearch/WebFetch bloqueados, scraping indisponível ou sem resultado): **NÃO altere valores nem a data do cabeçalho** e não reescreva a narrativa como se fosse do dia. Deixe o painel com o último dado válido explicitamente datado e registre a falha no Briefing (ex.: "Atualização de DD/MM não realizada — fontes indisponíveis"). É melhor exibir dado anterior datado do que publicar dado velho como se fosse atual.

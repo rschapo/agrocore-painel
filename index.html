@@ -68,6 +68,26 @@ tr:last-child td { border-bottom: none; }
 .dllink { font-size:12px; color:#2e6b33; text-decoration:none; font-weight:600; }
 .dllink:hover{ text-decoration:underline; }
 .linkrow { font-size:12px; margin-top:6px; }
+/* AgroCore — rodapé institucional e contato do cabeçalho */
+.agc-header-contact { display:flex; align-items:center; gap:12px; margin-left:auto; }
+.agc-header-contact a { color:#346032; display:inline-flex; align-items:center; text-decoration:none; }
+.agc-header-contact a:hover { color:#C69E38; }
+.agc-header-contact svg { width:18px; height:18px; display:block; }
+@media (max-width:700px) { .agc-header-contact { display:none; } }
+.agc-footer { background:#17351F; color:#fff; border-radius:0 0 12px 12px; margin-top:20px; padding:22px 24px; display:flex; flex-wrap:wrap; gap:16px 32px; align-items:flex-start; justify-content:space-between; font-size:13px; }
+.agc-footer a { color:#C69E38; text-decoration:none; }
+.agc-footer a:hover { text-decoration:underline; color:#ddb95a; }
+.agc-footer__brand { display:flex; align-items:center; gap:12px; min-width:230px; }
+.agc-footer__brand img { height:42px; width:auto; }
+.agc-footer__brand-text { display:flex; flex-direction:column; gap:3px; }
+.agc-footer__brand-text a { font-weight:700; color:#fff; }
+.agc-footer__brand-text a:hover { color:#C69E38; text-decoration:none; }
+.agc-footer__tag { color:#fff; opacity:.8; font-size:12px; font-style:italic; }
+.agc-footer__links { display:flex; flex-wrap:wrap; gap:10px 22px; align-items:center; }
+.agc-footer__links a { display:inline-flex; align-items:center; gap:6px; }
+.agc-footer__links svg { width:16px; height:16px; flex-shrink:0; }
+.agc-footer__legal { width:100%; color:#fff; opacity:.65; font-size:11px; margin-top:6px; border-top:1px solid rgba(255,255,255,.15); padding-top:10px; }
+@media (max-width:640px) { .agc-footer { flex-direction:column; align-items:flex-start; } }
 </style>
 </head>
 <body>
@@ -76,6 +96,12 @@ tr:last-child td { border-bottom: none; }
   <div style="flex:1;min-width:220px;">
     <div style="font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#2e6b33;">Painel Diário · Mercado · Macro · Agro</div>
     <div style="font-size:13px;color:#4b5563;margin-top:7px;">📅 Atualizado em <strong>14 de julho de 2026</strong> (terça-feira) · fechamentos de mercado de <strong>13/jul</strong> (último pregão); indicadores CEPEA ref. 13/jul; Boletim Focus de 13/jul (IPCA 2026 → 5,16%); IPCA de junho (4,64% em 12m) mantido; nota intradia 14/jul: escalada em Ormuz seguiu (Brent ≈ US$ 86)</div>
+  </div>
+  <div class="agc-header-contact" aria-label="Contato e redes AgroCore">
+    <a href="mailto:contato@agrocoregestao.com.br" aria-label="E-mail da AgroCore" title="E-mail da AgroCore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M3 6l9 7 9-7"/></svg></a>
+    <a href="https://wa.me/5567992450781" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp da AgroCore" title="WhatsApp da AgroCore"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.09-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.19-1.77 1.24-.46.05-.94.24-3.15-.66-2.66-1.06-4.36-3.77-4.5-3.94-.13-.17-1.07-1.42-1.07-2.7 0-1.29.68-1.92.92-2.18.24-.26.52-.32.7-.32h.5c.16 0 .38-.03.58.44.22.53.75 1.84.82 1.97.07.13.11.29.02.46-.09.17-.14.28-.27.43-.13.15-.28.34-.4.46-.13.13-.27.27-.12.53.15.26.66 1.09 1.42 1.77.98.87 1.8 1.14 2.06 1.27.26.13.41.11.56-.07.15-.17.64-.75.81-1.01.17-.26.34-.22.57-.13.23.09 1.47.69 1.72.82.25.13.42.19.48.3.06.11.06.63-.16 1.25z"/></svg></a>
+    <a href="https://instagram.com/agrocoregestao" target="_blank" rel="noopener noreferrer" aria-label="Instagram da AgroCore" title="Instagram da AgroCore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+    <a href="https://www.linkedin.com/company/agrocoregestao" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn da AgroCore" title="LinkedIn da AgroCore"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.64-1.85 3.38-1.85 3.62 0 4.29 2.38 4.29 5.48v6.26zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg></a>
   </div>
 </header>
 
@@ -572,8 +598,29 @@ tr:last-child td { border-bottom: none; }
   <strong>Aviso:</strong> conteúdo informativo, não constitui recomendação de investimento. Dados de fontes públicas sujeitos a revisão.
 </div>
 
+<footer class="agc-footer">
+  <div class="agc-footer__brand">
+    <a href="https://www.agrocoregestao.com.br" target="_blank" rel="noopener noreferrer"><img id="agcFooterLogo" alt="AgroCore - Gestão do Agronegócio"></a>
+    <div class="agc-footer__brand-text">
+      <a href="https://www.agrocoregestao.com.br" target="_blank" rel="noopener noreferrer">AgroCore · Gestão do Agronegócio</a>
+      <p class="agc-footer__tag">O básico bem feito, com experiência para lidar com o complexo.</p>
+    </div>
+  </div>
+  <nav class="agc-footer__links" aria-label="Contato e redes AgroCore">
+    <a href="https://www.agrocoregestao.com.br" target="_blank" rel="noopener noreferrer" aria-label="Site da AgroCore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20 15 15 0 010-20z"/></svg>agrocoregestao.com.br</a>
+    <a href="mailto:contato@agrocoregestao.com.br" aria-label="E-mail da AgroCore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M3 6l9 7 9-7"/></svg>contato@agrocoregestao.com.br</a>
+    <a href="https://wa.me/5567992450781" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp da AgroCore"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.09-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.19-1.77 1.24-.46.05-.94.24-3.15-.66-2.66-1.06-4.36-3.77-4.5-3.94-.13-.17-1.07-1.42-1.07-2.7 0-1.29.68-1.92.92-2.18.24-.26.52-.32.7-.32h.5c.16 0 .38-.03.58.44.22.53.75 1.84.82 1.97.07.13.11.29.02.46-.09.17-.14.28-.27.43-.13.15-.28.34-.4.46-.13.13-.27.27-.12.53.15.26.66 1.09 1.42 1.77.98.87 1.8 1.14 2.06 1.27.26.13.41.11.56-.07.15-.17.64-.75.81-1.01.17-.26.34-.22.57-.13.23.09 1.47.69 1.72.82.25.13.42.19.48.3.06.11.06.63-.16 1.25z"/></svg>WhatsApp (67) 99245-0781</a>
+    <a href="https://instagram.com/agrocoregestao" target="_blank" rel="noopener noreferrer" aria-label="Instagram da AgroCore"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>@agrocoregestao</a>
+    <a href="https://www.linkedin.com/company/agrocoregestao" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn da AgroCore"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.64-1.85 3.38-1.85 3.62 0 4.29 2.38 4.29 5.48v6.26zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>LinkedIn</a>
+  </nav>
+  <p class="agc-footer__legal">AGROCORE GESTÃO DO AGRONEGÓCIO LTDA · CNPJ 27.230.316/0001-26 · Campo Grande – MS</p>
+</footer>
+
 <script>
 (function(){
+  var headerLogo = document.querySelector('header img');
+  var footerLogo = document.getElementById('agcFooterLogo');
+  if (headerLogo && footerLogo) { footerLogo.src = headerLogo.src; }
   var tabs = document.querySelectorAll('.tab-btn');
   var panels = document.querySelectorAll('.panel');
   var mainChart=null, bolsaChart=null, corrChart=null;
