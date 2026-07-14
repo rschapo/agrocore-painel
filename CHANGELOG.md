@@ -15,6 +15,29 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-07-14 — Gatilho externo (cron-job.org) como principal; guard estendido a workflow_dispatch
+
+3º dia seguido (10/07, 13/07, 14/07) em que o `schedule` nativo do GitHub Actions **não disparou
+nenhuma das 3 tentativas**. Decisão do usuário: usar um serviço de cron externo dedicado
+(**cron-job.org**) chamando a API REST do GitHub (`POST
+.../actions/workflows/daily-update.yml/dispatches`) como gatilho principal, mantendo o `schedule`
+nativo só como reserva adicional (sem custo em manter).
+
+Configurado pelo usuário: conta no cron-job.org, token fine-grained do GitHub (permissão só
+`Actions: write`, escopo só este repositório), cronjob `Agrocore_Panel` chamando o endpoint com
+headers `Authorization: Bearer <token>`, `Accept: application/vnd.github+json`,
+`X-GitHub-Api-Version: 2022-11-28`, body `{"ref":"main"}`. Validado com Test Run → `204 No
+Content` → run real apareceu no GitHub Actions no mesmo segundo.
+
+**Bug encontrado e corrigido na hora:** o guard de "já rodou hoje" só se aplicava ao evento
+`schedule` — mas o cron-job.org dispara via `workflow_dispatch` (a mesma porta de um disparo
+manual), que o guard tratava como "sempre forçar". Isso faria o cron-job.org rodar em dobro com o
+`schedule` nativo (ou com uma execução manual anterior no mesmo dia) todo santo dia, gastando
+crédito à toa. Corrigido: adicionado input `force` (boolean, default `false`) ao
+`workflow_dispatch`; o guard agora respeita "já rodou hoje" **também** para `workflow_dispatch`,
+só ignorando a checagem se `force=true` for passado explicitamente.
+Commit: ver `.github/workflows/daily-update.yml`.
+
 ## 2026-07-13 — Decisão do leite: "Leite ao produtor" (opção 1)
 
 Usuário escolheu a opção 1 da decisão pendente registrada mais cedo hoje: a série de leite passa a

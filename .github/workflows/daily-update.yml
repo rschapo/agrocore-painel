@@ -1,24 +1,32 @@
 name: Atualizacao diaria e deploy
 
-# Roda dias uteis com ATE 3 TENTATIVAS de disparo automatico -- 05:42, 06:38 e 07:22 BRT
-# (08:42, 09:38 e 10:22 UTC): atualiza o painel com o Claude Code, faz commit e publica no
-# Netlify. Requer o secret ANTHROPIC_API_KEY.
+# Roda dias uteis: gatilho principal e externo (cron-job.org, via API workflow_dispatch,
+# ~05:42/06:42 BRT -- ver README) + 3 tentativas de reserva do `schedule` nativo do GitHub
+# (05:42, 06:38 e 07:22 BRT / 08:42, 09:38 e 10:22 UTC). Atualiza o painel com o Claude Code,
+# faz commit e publica no Netlify. Requer o secret ANTHROPIC_API_KEY.
 # OBS (avancado): a etapa de atualizacao usa o Claude Code em modo nao interativo e depende
 # de acesso a web/fontes. Se falhar, o deploy do index.html atual ainda ocorre.
-# O `schedule` do GitHub Actions e "best effort" (nao garantido) -- a documentacao oficial
-# avisa que execucoes podem atrasar ou nao disparar em horarios de pico (o topo da hora,
-# :00, e o mais concorrido -- por isso nenhum dos 3 horarios cai em :00). Ja tivemos DOIS
-# dias (10/07 e 13/07) em que o schedule simplesmente nao disparou nem uma vez, entao 3
-# tentativas por dia (a pedido do usuario) reduzem bastante a chance de um dia inteiro
-# sem atualizacao automatica. Um guard (job "Verificar se ja rodou hoje") pula as tentativas
-# seguintes assim que uma ja tiver rodado com sucesso, para nao processar/gastar credito em
-# dobro/triplo num dia em que mais de uma dispararem.
+# O `schedule` do GitHub Actions e "best effort" (nao garantido) -- em 3 dias corridos
+# (10/07, 13/07, 14/07) ele NUNCA disparou nem uma vez, apesar de 3 tentativas/dia. Por isso
+# 14/07: o gatilho principal passou a ser externo (cron-job.org chamando a API REST
+# `POST .../actions/workflows/daily-update.yml/dispatches`), com o `schedule` nativo mantido
+# só como reserva adicional (nao custa nada deixar).
+# IMPORTANTE: como o cron-job.org dispara via workflow_dispatch (a mesma "porta" de um run
+# manual), o guard abaixo NAO pode mais assumir "workflow_dispatch = sempre forcar". Por
+# padrao, workflow_dispatch tambem respeita "ja rodou hoje?" -- so pula a checagem se o input
+# `force=true` for passado explicitamente (ex.: "gh workflow run ... -f force=true", ou
+# marcando a opcao no dialogo "Run workflow" da aba Actions).
 on:
   schedule:
     - cron: '42 8 * * 1-5'
     - cron: '38 9 * * 1-5'
     - cron: '22 10 * * 1-5'
   workflow_dispatch:
+    inputs:
+      force:
+        description: 'Forcar execucao mesmo se ja rodou hoje (ignora o guard)'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -31,17 +39,18 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Verificar se ja rodou hoje (evita duplicar no cron de reserva)
+      - name: Verificar se ja rodou hoje (evita duplicar entre gatilhos)
         id: guard
         run: |
-          if [ "${{ github.event_name }}" != "schedule" ]; then
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+            echo "force=true recebido -- ignorando o guard e rodando de qualquer forma."
             echo "skip=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           LAST_BOT_DATE="$(git log -1 --author=agrocore-bot --format=%cd --date=format:%Y-%m-%d -- index.html 2>/dev/null || true)"
           TODAY="$(date -u +%F)"
           if [ "$LAST_BOT_DATE" = "$TODAY" ]; then
-            echo "Ja existe commit do agrocore-bot hoje ($TODAY) -- pulando esta execucao (provavelmente o cron principal ja rodou e este e o de reserva)."
+            echo "Ja existe commit do agrocore-bot hoje ($TODAY) -- pulando esta execucao (outro gatilho -- cron-job.org, schedule nativo ou disparo manual anterior -- ja rodou hoje). Use force=true para forcar mesmo assim."
             echo "skip=true" >> "$GITHUB_OUTPUT"
           else
             echo "skip=false" >> "$GITHUB_OUTPUT"
