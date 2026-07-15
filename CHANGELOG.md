@@ -15,6 +15,25 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-07-15 — 1ª atualização 100% automática bem-sucedida (cron-job.org)
+
+Primeira vez que o painel atualizou sozinho de ponta a ponta, sem nenhum disparo manual do
+usuário ou do Claude. O **cron-job.org disparou 2 vezes** (09:02 e 10:02 UTC, ambos evento
+`workflow_dispatch`, ~1h de intervalo): a 1ª chamada (09:02 UTC) fez o trabalho real — pesquisou,
+editou `index.html`, commitou (`7884407 Atualizacao diaria do painel (2026-07-15)`) e publicou, em
+16m30s; a 2ª (10:02 UTC) foi **corretamente pulada pelo guard** em 6 segundos, reconhecendo que já
+havia commit do `agrocore-bot` datado de hoje — exatamente o comportamento desenhado em 14/07.
+Rodapé/cabeçalho institucionais permaneceram intactos (regra de proteção respeitada).
+
+Nota de fuso: o cronjob está configurado com timezone `America/Cuiaba` no cron-job.org — essa
+zona é **UTC-4 (hora do Amazonas)**, uma hora **atrás** de `America/Sao_Paulo`/BRT (UTC-3). Os
+horários reais observados (09:02/10:02 UTC = 06:02/07:02 BRT) sugerem que o cronjob está
+disparando ~1h mais tarde em BRT do que o valor numérico configurado sugere à primeira vista. Não
+é um problema funcional (a rotina roda de manhã de qualquer forma, dentro da janela útil), mas
+vale corrigir a timezone do cronjob para `America/Sao_Paulo` se for importante que os horários
+batam exatamente com BRT.
+Sem commit de código — registro operacional.
+
 ## 2026-07-14 — Rodapé institucional AgroCore + contato no cabeçalho
 
 A pedido do usuário, adicionado rodapé institucional (visível em todas as abas, fora dos painéis
