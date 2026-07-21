@@ -7,11 +7,21 @@ name: PDCA semanal da rotina diaria
 # NAO edita nenhum arquivo do repo -- so le git log/diff e logs do Actions
 # e propoe mudancas para revisao humana.
 # Cron fora do topo da hora (:00) de proposito -- ver nota em daily-update.yml
-# sobre o schedule do GitHub Actions ser "best effort".
+# sobre o schedule do GitHub Actions ser "best effort". Por isso este workflow tambem
+# tem um gatilho externo (cron-job.org, job "Agrocore_PDCA", via workflow_dispatch).
+# IMPORTANTE: como cron-job.org dispara via workflow_dispatch (mesma "porta" de um run
+# manual), o guard abaixo NAO pode assumir "workflow_dispatch = sempre forcar" -- por
+# padrao, workflow_dispatch tambem respeita "ja rodou hoje?" -- so pula a checagem se o
+# input `force=true` for passado explicitamente.
 on:
   schedule:
     - cron: '12 11 * * 1'
   workflow_dispatch:
+    inputs:
+      force:
+        description: 'Forcar execucao mesmo se ja rodou hoje (ignora o guard)'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -25,12 +35,33 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Verificar se ja rodou hoje (evita duplicar entre gatilhos)
+        id: guard
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+            echo "force=true recebido -- ignorando o guard e rodando de qualquer forma."
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          TODAY="$(date -u +%F)"
+          EXISTING="$(gh issue list --search "\"PDCA semanal - revisao da rotina diaria ($TODAY)\" in:title" --json number --jq 'length')"
+          if [ "$EXISTING" -gt 0 ]; then
+            echo "Ja existe uma Issue de PDCA semanal criada hoje ($TODAY) -- pulando esta execucao (outro gatilho -- cron-job.org, schedule nativo ou disparo manual anterior -- ja rodou hoje). Use force=true para forcar mesmo assim."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/setup-node@v4
+        if: steps.guard.outputs.skip != 'true'
         with:
           node-version: '20'
       - name: Instalar Claude Code
+        if: steps.guard.outputs.skip != 'true'
         run: npm install -g @anthropic-ai/claude-code
       - name: Gerar relatorio PDCA
+        if: steps.guard.outputs.skip != 'true'
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -51,6 +82,7 @@ jobs:
           claude -p "$PROMPT" --allowedTools "Bash" > /tmp/pdca-review.md
           cat /tmp/pdca-review.md
       - name: Publicar relatorio como Issue
+        if: steps.guard.outputs.skip != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
