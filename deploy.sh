@@ -15,6 +15,14 @@ if [ -f painel-mercado.html ]; then
   cp -f painel-mercado.html index.html
 fi
 
+# Trava de seguranca: nunca publicar um arquivo com marcadores de conflito de merge
+# nao resolvidos (ja aconteceu de um merge malfeito ir parar no site publicado).
+if grep -qE '^(<{7}|={7}|>{7})' index.html; then
+  echo "ERRO: index.html tem marcadores de conflito de merge (<<<<<<< / ======= / >>>>>>>) nao resolvidos." >&2
+  echo "Resolva o conflito antes de publicar. Deploy cancelado." >&2
+  exit 1
+fi
+
 echo "Publicando painel AgroCore no Netlify..."
 netlify deploy --prod --dir="$DIR" --message "Atualizacao painel AgroCore $(date +%Y-%m-%d)"
 echo "Concluido. A URL publica foi exibida acima."

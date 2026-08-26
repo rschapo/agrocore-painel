@@ -15,6 +15,24 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-08-26 — Site publicado com marcadores de conflito de merge; trava adicionada no deploy.sh
+
+O site em produção (Netlify) mostrou por um período marcadores de conflito de merge não
+resolvidos (`<<<<<<< HEAD` / `=======` / `>>>>>>> 011efc2`) espalhados pelo `index.html`
+publicado — usuário reportou via prints. Investigação: nem o `index.html` local (que estava
+1 mês desatualizado, parado em 27/jul) nem o `index.html` do GitHub (`origin/main`, em dia até
+26/ago) continham marcadores de conflito — ou seja, o arquivo publicado com defeito não veio
+do fluxo git normal, veio de um `./deploy.sh` rodado em algum momento sobre uma cópia local com
+um merge malfeito que nunca chegou a ser commitada. Corrigido publicando a versão limpa e atual
+de `origin/main`. **Prevenção:** `deploy.sh` agora recusa publicar (`exit 1`) se o `index.html`
+tiver qualquer marcador de conflito (`<<<<<<<`/`=======`/`>>>>>>>`) — evita que isso se repita.
+
+Achado paralelo (ainda não resolvido — ver decisão pendente com o usuário): havia uma mudança
+local não commitada, aparentemente de ~11/08/2026, implementando um banner de consentimento de
+cookies (LGPD) que gate-ia o carregamento do Google Analytics — nunca foi enviada ao GitHub, e
+por isso a rotina automática seguiu publicando o GA4 sem consentimento por pelo menos 2 semanas.
+Preservada via `git stash` para decisão do usuário sobre reaplicar ou descartar.
+
 ## 2026-07-15 — 1ª atualização 100% automática bem-sucedida (cron-job.org)
 
 Primeira vez que o painel atualizou sozinho de ponta a ponta, sem nenhum disparo manual do
