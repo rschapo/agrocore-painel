@@ -1,0 +1,73 @@
+name: Watchdog da atualizacao diaria
+
+# Roda todo dia util as 11:00 UTC (~08h BRT), depois das 3 tentativas do
+# daily-update.yml (08:42, 09:38, 10:22 UTC) + margem. Checa se o painel foi
+# atualizado hoje; se nao foi, abre uma Issue de alerta.
+#
+# Por que este workflow existe separado do daily-update.yml: se o gatilho
+# externo (cron-job.org) falhar ANTES de chegar ao GitHub (ex.: token expirado,
+# 401/403), nenhum run do daily-update.yml chega a comecar -- e por isso os
+# alertas que vivem DENTRO dele ("index.html nao mudou", "push falhou") nunca
+# disparam, porque nao ha execucao nenhuma para detectar o problema. Este
+# watchdog roda no seu proprio agendamento independente e so verifica o
+# resultado final (houve commit do agrocore-bot hoje?), entao pega esse caso.
+#
+# Incidente que motivou isso (27/08/2026): o token do cron-job.org expirou em
+# ~13-14/08 e ficou falhando silenciosamente por 2 semanas, mascarado porque o
+# `schedule` nativo do daily-update.yml cobriu sozinho -- ate falhar tambem em
+# 27/08 e causar um apagao total de 1 dia, sem nenhum alerta.
+on:
+  schedule:
+    - cron: '0 11 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verificar se o painel foi atualizado hoje
+        id: check
+        run: |
+          LAST_BOT_DATE="$(git log -1 --author=agrocore-bot --format=%cd --date=format:%Y-%m-%d -- index.html 2>/dev/null || true)"
+          TODAY="$(date -u +%F)"
+          echo "Ultimo commit do agrocore-bot em index.html: $LAST_BOT_DATE (hoje: $TODAY)"
+          if [ "$LAST_BOT_DATE" = "$TODAY" ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Evitar alerta duplicado no mesmo dia
+        id: dup
+        if: steps.check.outputs.ok != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TODAY="$(date -u +%F)"
+          EXISTING="$(gh issue list --search "\"Alerta: painel nao atualizou hoje ($TODAY)\" in:title" --json number --jq 'length')"
+          echo "existing=$EXISTING" >> "$GITHUB_OUTPUT"
+      - name: Abrir Issue de alerta
+        if: steps.check.outputs.ok != 'true' && steps.dup.outputs.existing == '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          {
+            echo "Nenhum commit do agrocore-bot em index.html foi detectado hoje ($(date -u +%F)) ate as $(date -u +%H:%M) UTC (~$(TZ='America/Sao_Paulo' date +%H:%M) BRT)."
+            echo
+            echo "Isso significa que NENHUMA das 3 tentativas do gatilho automatico (cron-job.org ou schedule nativo do GitHub) rodou com sucesso ate agora."
+            echo
+            echo "Verifique:"
+            echo "1. cron-job.org -- painel do job \"Agrocore_Panel\": historico de execucoes, procure por erro HTTP (ex.: 401 = token expirado)."
+            echo "2. GitHub Actions -- aba Actions do repositorio: confira se o \`schedule\` nativo do \`daily-update.yml\` disparou hoje."
+            echo
+            echo "Para atualizar manualmente enquanto investiga: \`gh workflow run daily-update.yml -f force=true\` (ou pelo botao \"Run workflow\" na aba Actions)."
+          } > /tmp/watchdog-alert.md
+          gh issue create \
+            --title "Alerta: painel nao atualizou hoje ($(date -u +%F))" \
+            --body-file /tmp/watchdog-alert.md

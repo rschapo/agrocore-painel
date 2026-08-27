@@ -15,6 +15,24 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-08-27 — Watchdog de "painel não atualizou" (novo workflow, alerta em 2 camadas)
+
+Resposta ao incidente do mesmo dia (ver entrada abaixo): não havia nenhum alerta quando o
+**gatilho em si** falha antes de chegar ao GitHub (ex.: token do cron-job.org expirado) — os
+alertas existentes ("index.html não mudou", "push falhou") vivem dentro do `daily-update.yml` e só
+disparam se um run começar. Implementado em duas camadas, por canal:
+
+1. **`.github/workflows/watchdog.yml` (novo)** — roda 1x/dia útil às 11:00 UTC (~08h BRT), depois
+   das 3 tentativas do `daily-update.yml`. Não depende de nenhum gatilho externo: checa
+   `git log --author=agrocore-bot` e, se não houve commit hoje, abre uma Issue de alerta com
+   diagnóstico (checar cron-job.org por erro HTTP, checar `schedule` nativo, comando pronto para
+   disparo manual). Trava contra Issue duplicada no mesmo dia, mesmo padrão do
+   `weekly-review.yml`.
+2. **E-mail nativo do cron-job.org** (configuração manual do usuário, fora do repo) — ativado nas
+   notificações dos jobs `Agrocore_Panel` e `Agrocore_PDCA` para avisar quando a própria chamada
+   HTTP falhar (401/403/500/timeout). É a camada mais rápida para o caso específico de token
+   expirado, já que dispara no momento da falha, não só na manhã seguinte via watchdog.
+
 ## 2026-08-27 — Token do cron-job.org expirado (401) causou apagão total de 1 dia; renovado
 
 Usuário reportou "o painel hoje não atualizou". Investigação (`gh run list`) mostrou: (1) nenhuma
