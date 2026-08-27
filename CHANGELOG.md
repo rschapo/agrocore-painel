@@ -28,10 +28,11 @@ disparam se um run começar. Implementado em duas camadas, por canal:
    diagnóstico (checar cron-job.org por erro HTTP, checar `schedule` nativo, comando pronto para
    disparo manual). Trava contra Issue duplicada no mesmo dia, mesmo padrão do
    `weekly-review.yml`.
-2. **E-mail nativo do cron-job.org** (configuração manual do usuário, fora do repo) — ativado nas
-   notificações dos jobs `Agrocore_Panel` e `Agrocore_PDCA` para avisar quando a própria chamada
-   HTTP falhar (401/403/500/timeout). É a camada mais rápida para o caso específico de token
-   expirado, já que dispara no momento da falha, não só na manhã seguinte via watchdog.
+2. **E-mail nativo do cron-job.org** (ativado pelo usuário em 27/08) — notificações ligadas nos
+   dois jobs (`Agrocore_Panel` e `Agrocore_PDCA`): "execution fails" (avisa já na 1ª falha),
+   "succeeds after it failed before" e "cronjob will be disabled because of too many failures".
+   É a camada mais rápida para o caso específico de token expirado, já que dispara no momento da
+   falha, não só na manhã seguinte via watchdog.
 
 ## 2026-08-27 — Token do cron-job.org expirado (401) causou apagão total de 1 dia; renovado
 
