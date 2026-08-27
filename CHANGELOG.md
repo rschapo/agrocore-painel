@@ -15,6 +15,30 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-08-27 — Token do cron-job.org expirado (401) causou apagão total de 1 dia; renovado
+
+Usuário reportou "o painel hoje não atualizou". Investigação (`gh run list`) mostrou: (1) nenhuma
+execução de nenhum gatilho rodou em 27/08 antes das ~12h30 UTC (nem `schedule` nativo, nem
+`workflow_dispatch` do cron-job.org); (2) olhando o histórico completo por tipo de evento, **o
+cron-job.org não dispara com sucesso desde 13/08** — todas as execuções bem-sucedidas entre 14/08
+e 26/08 vieram do `schedule` nativo do GitHub, que por "melhor esforço" cobriu o gatilho externo
+quebrado por 2 semanas sem que ninguém notasse, até falhar também em 27/08 e expor o problema.
+Causa raiz confirmada no painel do cron-job.org: token fine-grained `agrocore-cron-trigger`
+(criado 14/07/2026) **expirado**, gerando `401 Unauthorized` em toda tentativa desde então.
+
+Ações: (1) disparo manual (`gh workflow run daily-update.yml -f force=true`) para atualizar o
+painel do dia; (2) token regenerado no GitHub (mesmo nome/permissões, nova expiração — **anotar
+a data escolhida e criar lembrete de renovação antes de vencer, para não repetir esse gap**);
+(3) valor novo colado no header `Authorization` dos dois jobs do cron-job.org (`Agrocore_Panel` e
+`Agrocore_PDCA`); (4) Test Run confirmado 204 em ambos. O Test Run do PDCA disparou um
+`workflow_dispatch` real fora do ciclo semanal, gerando a Issue #13 (27/08) — fechada como
+artefato de teste, sem ação necessária (revisão semanal real segue às segundas).
+
+**Gap identificado para o futuro:** não há hoje nenhum alerta automático quando o `cron-job.org`
+para de disparar — só percebemos porque o `schedule` nativo também falhou no mesmo dia. Considerar
+monitorar isso (ex.: alertar se não houver nenhum commit de `agrocore-bot` até um horário-limite,
+independente da causa).
+
 ## 2026-08-26 — Site publicado com marcadores de conflito de merge; trava adicionada no deploy.sh
 
 O site em produção (Netlify) mostrou por um período marcadores de conflito de merge não
