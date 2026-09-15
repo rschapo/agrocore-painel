@@ -15,7 +15,28 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
-## 2026-08-27 — Watchdog de "painel não atualizou" (novo workflow, alerta em 2 camadas)
+## 2026-09-15 — Tabela "Cana-de-açúcar & Etanol" congelada desde julho: fonte e regra dedicadas
+
+Usuário notou que a tabela da aba Commodities não atualizava desde julho. Diagnóstico pelo
+histórico do `index.html`: açúcar cristal parado em "ref. 30/jul" (último commit que mexeu: 31/07),
+etanol hidratado/anidro em "ref. jul/26" e ATR Consecana-SP em "mar/26" — **sem nenhuma marcação
+"a confirmar"**. Causa: `rotina-diaria.md` não tinha instrução/fonte para essa tabela (só a menção
+genérica "CEPEA açúcar/etanol", e o CEPEA bloqueia `WebFetch` com 403); a rotina não mexia nela e
+nenhum alerta pegava, porque o resto do `index.html` mudava todo dia. O PDCA semanal também não
+detectou (nenhuma menção nas Issues #2–#16).
+
+Mudança (só em `rotina-diaria.md` — o `index.html` será corrigido pela própria rotina na execução
+de 16/09):
+- Nova seção "Cana-de-açúcar & Etanol": fonte validada **Notícias Agrícolas**
+  (`noticiasagricolas.com.br/cotacoes/sucroenergetico`), com a seção exata de cada indicador, a
+  cadência de cada um (açúcar diário, etanol semanal), limite de defasagem, fallback
+  (CEPEA/UDOP) e formato de "a confirmar" com o último valor datado.
+- **ATR Consecana-SP vira `n/d` estrutural**: desde jun/2026 o Consecana-SP publica o ATR mensal só a
+  assinantes. A Observação passa a trazer o Consecana-PR como referência pública, identificado como PR.
+- Legenda da tabela corrigida (dizia que os valores "são preenchidos pela rotina via CEPEA").
+
+Commit publicado com `[skip ci]`, sem republicar o site no dia.
+ (novo workflow, alerta em 2 camadas)
 
 Resposta ao incidente do mesmo dia (ver entrada abaixo): não havia nenhum alerta quando o
 **gatilho em si** falha antes de chegar ao GitHub (ex.: token do cron-job.org expirado) — os
