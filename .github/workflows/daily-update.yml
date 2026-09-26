@@ -32,6 +32,18 @@ permissions:
   contents: write
   issues: write
 
+# Guard de concorrencia (26/09/2026) -- corrige a causa raiz do incidente de 26/08 (Issue #12,
+# diagnosticado no PDCA da Issue #14): o run das 09:22 levou 49min e ainda NAO tinha commitado
+# quando o run das 10:07 comecou; como o guard "ja rodou hoje?" olha commit (nao run em
+# andamento), os dois rodaram completos em paralelo e colidiram no `git push`.
+# Com isto, um segundo run do mesmo workflow NAO roda em paralelo: ele fica na fila e, quando
+# chegar a vez, o guard de data ja vera o commit do agrocore-bot do run anterior e pulara em
+# segundos (barato). `cancel-in-progress: false` e proposital: nunca mate um run que ja esta
+# no meio da pesquisa/edicao -- o caro e refazer o trabalho, nao esperar.
+concurrency:
+  group: daily-update
+  cancel-in-progress: false
+
 jobs:
   update-deploy:
     runs-on: ubuntu-latest
