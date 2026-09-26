@@ -15,6 +15,38 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-09-26 — Fim das pendências crônicas: praças de UF, arroz, JPY/BRL e futuro do boi
+
+Usuário apontou o bloco "item a resolver" do Briefing, que vinha repetindo as mesmas pendências há
+semanas. Diagnóstico: cinco problemas distintos, todos por **falta de fonte acessível**, não por
+falha da rotina. Pesquisa de fontes feita nesta data; mudanças só em `rotina-diaria.md` (o
+`index.html` é corrigido pela própria rotina na próxima execução).
+
+1. **Praças de soja/milho sem cotação pública (SP/PR/SC/TO/MA-PA).** Nenhuma fonte cobre Ribeirão
+   Preto, Cascavel, Chapecó, Pedro Afonso ou Porto Nacional. Decisão do usuário: **trocar as
+   praças** para as que têm cotação diária — SP Cândido Mota, PR Marechal Cândido Rondon, SC Palma
+   Sola, RS Não-Me-Toque (via Notícias Agrícolas mercado físico), TO Palmas e MA Balsas (via
+   AgRural). Sem perda de série: essas células nunca tiveram histórico.
+2. **AgRural (`agrural.com.br/precossojaemilho/`) vira fonte primária** de soja/milho por praça:
+   diária, R$/60 kg, FOB, e a única legível que cobre TO, MA e PA. PA só tem **Barcarena (porto)** —
+   as maiores produtoras do estado não têm cotação pública; regra manda identificar como porto.
+3. **Grão Direto rebaixada a fonte secundária.** Dois motivos: os preços só existem no HTML dentro
+   de um bloco **JSON-LD**, que o `WebFetch` descarta (a página "parece vazia" tendo dados); e em
+   várias praças a ausência é real ("não encontramos ofertas na sua região", confirmado em Gurupi).
+   Além disso são ofertas de compradores, não indicador único.
+4. **Arroz: Uruguaiana e Turvo descartadas** (Notícias Agrícolas e Planeta Arroz parados em
+   23/04/2026; Agrolink não entrega valor no HTML; IRGA dá 403; Epagri/Cepa só painel/planilha).
+   RS passa ao **indicador estadual CEPEA/Senar-RS** (diário, mesma fonte do card do topo — era isso
+   que deixava o arroz parado em "ref. 10/set"); SC e TO viram `n/d` estrutural.
+5. **JPY/BRL via API PTAX do BCB** (`olinda.bcb.gov.br/.../CotacaoMoedaPeriodo`, JSON, datas em
+   `MM-DD-AAAA`, registro `tipoBoletim=Fechamento`). Vira fechamento oficial, sem "≈" — a linha
+   estava "aguardando nova leitura" desde 15/set.
+6. **Futuro boi (BGI, B3) via quadro "BRASIL (B3)" da Notícias Agrícolas.** Estava "a confirmar
+   desde 9/jul" e ainda citava o contrato BGIQ26, vencido em agosto; a regra agora obriga a reler o
+   vencimento da página a cada execução.
+
+Commit publicado com `[skip ci]`, sem republicar o site no dia.
+
 ## 2026-09-15 — Tabela "Cana-de-açúcar & Etanol" congelada desde julho: fonte e regra dedicadas
 
 Usuário notou que a tabela da aba Commodities não atualizava desde julho. Diagnóstico pelo
