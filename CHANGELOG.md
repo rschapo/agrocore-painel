@@ -15,6 +15,45 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-09-26 — Backlog do PDCA aplicado (13 Issues abertas, nenhuma com comentário)
+
+Auditoria das Issues abertas do PDCA (#2 a #17) a pedido do usuário. Constatação de processo:
+**nenhuma das 13 Issues abertas tinha um único comentário** — o ciclo escrevia relatório toda
+segunda, mas ninguém aplicava nem fechava, então as mesmas recomendações se repetiam há semanas.
+Aplicado agora o que era regra, mais um ajuste de infraestrutura:
+
+**Regra (`rotina-diaria.md`):**
+- **Link obrigatório em toda notícia**, com autoverificação (contar `news-item` vs cards com
+  `<a href>`). Auditoria: **123 de 124 cards sem link** — regra existia desde o início e estava
+  100% descumprida (Issue #5, julho).
+- **Proibido publicar rótulo interno** (`(a retirar)`, `(a atualizar)`, TODO). Caso aberto desde
+  julho: `SC/RS/PR (a retirar)` visível na tabela "Suíno vivo por praça" (Issue #3). Regra manda
+  manter as linhas e apagar só o rótulo — removê-las já foi apontado como regressão na #15.
+- **Varredura de pendências no fim de cada execução**: toda "a confirmar"/"n/d" precisa de data
+  `(desde DD/mmm)` ou de motivo estrutural. Auditoria: **27 de 38 ocorrências sem data** (#17).
+- **Rotação da aba Notícias**: teto de ~25 cards, expiração acima de ~15 dias e **1 card por tema
+  recorrente** (a aba chegou a **124 cards**, com 4 boletins Focus convivendo — #16).
+- **Leite: checar a cada execução se saiu mês novo** do CEPEA (#17). Observação: a suspeita de
+  atraso não se confirmou — o painel exibia `jul/26`, que era de fato a última leitura publicada.
+- **Lácteos e exportação (decisão do usuário):** "Leite UHT (atacado SP)" vira **"Leite UHT
+  (Sudeste)"** com indicador **diário** do CEPEA (`leite-derivados-atacado.aspx`, que abre por
+  `WebFetch` — ao contrário da página de grãos); a mesma fonte destrava "Leite em pó industrial",
+  parada em jun/26. "Carne bovina (exportação)" vira **`n/d` estrutural mensal**: o Comex Stat está
+  atrás de Cloudflare e bloqueia acesso automatizado; preenchimento oportunista por release
+  público (Secex/ABIEC/ABPA), citando fonte e mês (#8, #10).
+- **Colunas "Mês" e "30 dias" diferenciadas** (decisão do usuário): "Mês" ancora no fechamento do
+  mês anterior, "30 dias" em 30 dias corridos; proibido exibir as duas com valor e data idênticos
+  (#10).
+
+**Infraestrutura (`daily-update.yml`):**
+- Adicionado `concurrency: { group: daily-update, cancel-in-progress: false }`. Corrige a **causa
+  raiz** do incidente de 26/08 (Issue #12, diagnosticado no PDCA #14): o run das 09:22 levou 49 min
+  e ainda não tinha commitado quando o das 10:07 começou; como o guard "já rodou hoje?" olha
+  **commit** e não **run em andamento**, os dois rodaram completos em paralelo e colidiram no push.
+  Agora o segundo run espera na fila e, ao chegar a vez, pula em segundos ao ver o commit do bot.
+  `cancel-in-progress: false` é proposital: não matar um run no meio da pesquisa. YAML validado com
+  PyYAML antes do push.
+
 ## 2026-09-26 — Fim das pendências crônicas: praças de UF, arroz, JPY/BRL e futuro do boi
 
 Usuário apontou o bloco "item a resolver" do Briefing, que vinha repetindo as mesmas pendências há
