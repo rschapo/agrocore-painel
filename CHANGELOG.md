@@ -15,6 +15,30 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-09-28 — PDCA #18 aplicado (1ª execução do acordo "aplicar o consensual")
+
+Issue #18 (PDCA de 28/09) lida e conferida contra o `index.html` publicado antes de aplicar.
+Só regra em `rotina-diaria.md`; o `index.html` é corrigido pela rotina na próxima execução.
+
+- **Rotação de Notícias com contagem obrigatória** (Act 1 e 2): teto de 25 cards e 1 card por tema
+  recorrente (Focus, IPCA, IPCA-15, Copom, WASDE, GDT), com registro no Briefing. Motivo: a regra de
+  26/09 era descritiva e não mordeu — conferido: **120 cards, 6 de Focus e 5 de Copom** em 28/set.
+- **5 células de custo de ração/preços relativos** (Act 3, parte consensual): obrigatório datar a
+  pendência e dizer o insumo que falta; tentativa de fonte para o farelo (Notícias Agrícolas, quadro
+  Paranaguá). **O cálculo das 4 relações de troca não foi autorizado**: a fórmula aguarda decisão
+  do usuário (ver comentário na Issue #18).
+- **Lácteos** (Act 4): 403 do CEPEA `leite-derivados-atacado` é intermitente (a página abriu
+  normalmente em 28/09 à tarde, com UHT até 21/set) → repetir o `WebFetch` no fim do run; teto de
+  defasagem (sem variação "no mês" sobre leitura de junho). O fallback sugerido
+  (`noticiasagricolas.com.br/cotacoes/leite`) **não** cobre UHT/leite em pó, só o preço ao produtor.
+- **Mês × 30 dias** (Act 5): **não aplicado como proposto** — a premissa estava errada. Frango e
+  suíno têm, no `seriesMap`, pontos distintos em 26/ago e 31/ago com o mesmo valor (7,30 e 4,86), então
+  o percentual igual é correto. Acrescentado esclarecimento: proibido é reusar o mesmo ponto, não
+  mostrar valores iguais vindos de pontos diferentes.
+- Menor (Check 5): proibido escrever "resolvido nesta execução" para resolução de run anterior.
+
+Commit com `[skip ci]`, sem republicar o site.
+
 ## 2026-09-26 — Backlog do PDCA aplicado (13 Issues abertas, nenhuma com comentário)
 
 Auditoria das Issues abertas do PDCA (#2 a #17) a pedido do usuário. Constatação de processo:
