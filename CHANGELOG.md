@@ -15,6 +15,27 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-09-28 — Praças de milho de SC/RS pela produção e regra de "última cotação válida"
+
+O usuário apontou soja/milho de SC e RS em "a confirmar (desde 25/set)" e pediu a praça de
+referência pelo critério de maior produção. Pesquisa: IBGE/PAM 2024 (tabela 5457) cruzado com as
+fontes diárias legíveis.
+
+- **SC milho: Palma Sola → Campos Novos** (maior produtor de SC) e **RS milho: Não-Me-Toque →
+  Passo Fundo**, ambas via **AgRural** (decisão do usuário). Não-Me-Toque só cotou milho em 2 de 10
+  pregões. Os maiores produtores de soja (Campos Novos, Abelardo Luz, Tupanciretã, Cruz Alta) não têm
+  cotação de soja pública, então **a soja segue Palma Sola (SC) e Não-Me-Toque (RS)**, ambas com
+  cotação em 7–8 de 10 pregões.
+- **Causa real do "a confirmar":** as praças ficaram sem cotação só em 24–25/set. Nova regra: se o dia
+  estiver "s/ cotação", publicar a última cotação válida da mesma praça com a data dela (até 5 dias
+  úteis). Proibido trocar de cidade dentro da mesma célula.
+- **AgRural:** o aviso legal do site veda a reprodução total ou parcial das tabelas sem autorização
+  escrita e só permite citação pontual por imprensa. O usuário decidiu usar os valores pontuais com
+  referência expressa à fonte; a regra manda citar "AgRural" com link e nunca reproduzir a tabela.
+  Pedir autorização escrita à AgRural fica recomendado.
+
+Commit com `[skip ci]`, sem republicar o site; o `index.html` é corrigido pela rotina seguinte.
+
 ## 2026-09-28 — PDCA #18 aplicado (1ª execução do acordo "aplicar o consensual")
 
 Issue #18 (PDCA de 28/09) lida e conferida contra o `index.html` publicado antes de aplicar.
