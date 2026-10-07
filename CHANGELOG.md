@@ -15,6 +15,22 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-10-07 — Gráficos de grãos no Brasil em R$ (soja, milho, arroz)
+
+O usuário pediu, na aba Gráficos, o preço dos grãos em reais no Brasil, além do bushel de Chicago.
+
+- **3 séries novas no `seriesMap`:** `sojabr` (CEPEA Paranaguá, R$/sc 60kg), `milhobr` (ESALQ/B3
+  Campinas, R$/sc 60kg) e `arrozbr` (CEPEA/Senar-RS, R$/sc 50kg), no grupo novo "Grãos no Brasil
+  (R$/sc · CEPEA)" do seletor. São os mesmos valores da tabela "Média Brasil (CEPEA)".
+- **Histórico preenchido** a partir das edições diárias no git (9/jul a 6/out: 63 pontos de soja, 62 de
+  milho e 37 de arroz), pela **data de referência do CEPEA**, como em `cafe`. Edições de 9/jul (fase de
+  implantação, valores corrigidos depois) ficaram de fora.
+- No grupo Commodities, as opções viraram "Soja (Chicago)" e "Milho (Chicago)".
+- **`rotina-diaria.md`:** nova regra para acumular o ponto do dia nas 3 séries, sem repetir data de
+  referência e sem gravar "a confirmar".
+
+---
+
 ## 2026-09-28 — Praças de milho de SC/RS pela produção e regra de "última cotação válida"
 
 O usuário apontou soja/milho de SC e RS em "a confirmar (desde 25/set)" e pediu a praça de
