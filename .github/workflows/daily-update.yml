@@ -74,6 +74,29 @@ jobs:
       - name: Instalar ferramentas
         if: steps.guard.outputs.skip != 'true'
         run: npm install -g @anthropic-ai/claude-code netlify-cli
+      - name: Pre-carregar Conab (preco semanal ao produtor, TO)
+        if: steps.guard.outputs.skip != 'true'
+        continue-on-error: true
+        # O arquivo da Conab tem ~13 MB e passa do limite do WebFetch (10 MB); o Claude roda sem Bash.
+        # Por isso baixamos aqui e entregamos so as linhas do TO no prompt (ver rotina-diaria.md, arroz TO).
+        run: |
+          echo 'DADOS CONAB PRE-CARREGADOS: indisponivel nesta execucao (download falhou).' > /tmp/conab-to.txt
+          curl -sf --max-time 120 -o /tmp/conab-uf.txt https://portaldeinformacoes.conab.gov.br/downloads/arquivos/PrecosSemanalUF.txt || exit 0
+          python3 - <<'EOF'
+          import csv
+          rows = [[c.strip() for c in r] for r in csv.reader(open('/tmp/conab-uf.txt', encoding='latin-1'), delimiter=';')][1:]
+          want = {('ARROZ', 'LONGO FINO EM CASCA'): 50, ('SOJA', 'EM GR'): 60, ('MILHO', 'EM GR'): 60}
+          out = ['DADOS CONAB PRE-CARREGADOS (Conab, PrecosSemanalUF.txt, preco recebido pelo produtor, media do TO, semanal):']
+          for (prod, cls), sc in want.items():
+              pts = sorted((int(r[5]), int(r[6]), int(r[8]), r[7], r[10]) for r in rows
+                           if len(r) > 10 and r[3] == 'TO' and r[0] == prod and r[1].startswith(cls) and r[9].startswith('PRE'))
+              for y, m, w, sem, v in pts[-3:]:
+                  kg = float(v.replace(',', '.'))
+                  out.append(f'- {prod} | semana {sem} | R$ {kg:.2f}/kg = R$ {kg*sc:.2f}/sc {sc} kg'.replace('.', ','))
+          if len(out) > 1:
+              open('/tmp/conab-to.txt', 'w', encoding='utf-8').write(chr(10).join(out) + chr(10))
+          EOF
+          cat /tmp/conab-to.txt
       - name: Atualizar painel com o Claude
         if: steps.guard.outputs.skip != 'true'
         continue-on-error: true
@@ -84,6 +107,8 @@ jobs:
         # entao o Claude nao precisa rodar ./deploy.sh nem shell arbitrario nesta etapa.
         run: |
           PROMPT="$(cat rotina-diaria.md)
+
+          $(cat /tmp/conab-to.txt 2>/dev/null || echo 'DADOS CONAB PRE-CARREGADOS: indisponivel nesta execucao.')
 
           Nesta execucao automatizada (CI), NAO rode ./deploy.sh nem nenhum comando de shell -- apenas pesquise e edite o index.html. A publicacao e feita por um passo separado do workflow."
           claude -p "$PROMPT" --permission-mode acceptEdits --allowedTools "WebSearch,WebFetch" 2>&1 | tee /tmp/claude-output.log

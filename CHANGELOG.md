@@ -15,6 +15,21 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-10-07 — Tabela "Indicadores de referência (CEPEA/ESALQ)" e arroz do TO pela Conab
+
+- **"Média Brasil (CEPEA)" renomeada** para "Indicadores de referência (CEPEA/ESALQ)", com a coluna
+  "Praça do indicador" (soja Paranaguá, milho Campinas/ESALQ-B3, arroz RS/Senar-RS): não é média
+  nacional. A 1ª linha da tabela por UF virou "Indicador CEPEA (sj: Paranaguá | mi: Campinas | ar: RS)".
+- **Arroz do TO: de n/d para Conab semanal, média do estado** (preço recebido pelo produtor, arroz em
+  casca), a partir da rotina de 08/10. Pesquisa: Lagoa da Confusão, Pium e Formoso não têm cotação
+  pública legível (Agrolink em imagem, Planeta Arroz parado em 23/04, Conab municipal parada em jan/26).
+  Soja e milho do TO seguem Palmas/AgRural; Paraíso, Caseara e Marianópolis também não têm cotação.
+- **`daily-update.yml`:** novo passo "Pre-carregar Conab" baixa o `PrecosSemanalUF.txt` (~13 MB, acima
+  do limite do WebFetch) e entrega só as linhas do TO no prompt. Se o download falhar, a rotina mantém
+  o último valor por até 3 semanas.
+
+---
+
 ## 2026-10-07 — Gráficos de grãos no Brasil em R$ (soja, milho, arroz)
 
 O usuário pediu, na aba Gráficos, o preço dos grãos em reais no Brasil, além do bushel de Chicago.
