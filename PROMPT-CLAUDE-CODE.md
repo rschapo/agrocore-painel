@@ -21,6 +21,7 @@ O QUE FAZER (passo a passo)
 6. Depois de tudo, faça um push de teste e confirme que o `deploy.yml` publicou (mostre o log/resultado).
 
 REGRAS IMPORTANTES
+- **Marca e metadados (desde 07/11/2026):** o produto se chama **Briefing AgroCore** e o endereço público é `https://www.agrocoregestao.com.br/briefing` (o site institucional serve esta página por proxy). NÃO altere o `<title>`, a `meta description`, o `link rel="canonical"`, as tags `og:*`/`twitter:card` do `<head>` nem o rótulo "Briefing AgroCore · Mercado · Macro · Agro" acima da data no cabeçalho.
 - NÃO altere o bloco `<header>` nem o logo do index.html; em atualizações de dados, mude apenas os valores, textos, notícias e a data em "Atualizado em ...".
 - Ao atualizar dados, siga o `rotina-diaria.md` e a regra de NÃO inventar: dados sem confirmação da fonte oficial ficam como "a confirmar/n/d". Projeções e relações de troca são derivadas (interpretação). Agrolink é referencial (não auditado); CEPEA é indicador oficial.
 - FONTE ÚNICA: a partir de agora, este repositório/deploy é o dono do painel. (Eu vou desativar a tarefa diária que roda no Cowork para não haver duas versões.)
