@@ -15,6 +15,16 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-11-07 — Marca "Briefing AgroCore" e endereço www.agrocoregestao.com.br/briefing
+
+- O produto passa a se chamar **Briefing AgroCore**. Endereço público: `https://www.agrocoregestao.com.br/briefing`,
+  servido por proxy pelo site institucional (regra 200 em `site/_redirects` daquele site). O endereço
+  `velvety-torrone-71a5ac.netlify.app` continua funcionando, para não quebrar links já publicados.
+- `index.html`: novo `<title>`, `meta description`, `canonical` para `/briefing`, tags `og:*`/`twitter:card`
+  (imagem `og-agrocore.png` do site institucional) e rótulo "Briefing AgroCore · Mercado · Macro · Agro" no cabeçalho.
+- `rotina-diaria.md` e `PROMPT-CLAUDE-CODE.md`: regra nova para o robô não alterar esses itens.
+- Commit: ebbcec2.
+
 ## 2026-10-07 — Tabela "Indicadores de referência (CEPEA/ESALQ)" e arroz do TO pela Conab
 
 - **"Média Brasil (CEPEA)" renomeada** para "Indicadores de referência (CEPEA/ESALQ)", com a coluna
