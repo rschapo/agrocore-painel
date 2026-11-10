@@ -13,8 +13,14 @@ jobs:
       - uses: actions/checkout@v4
       - name: Instalar Netlify CLI
         run: npm install -g netlify-cli
+      # Publica so a pagina e o logo (desde 10/11/2026); README, prompts e scripts
+      # do repositorio nao vao para o site.
+      - name: Montar pasta publica
+        run: |
+          rm -rf /tmp/site && mkdir -p /tmp/site
+          cp index.html logo-agrocore.png /tmp/site/
       - name: Deploy (produção)
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        run: netlify deploy --prod --dir=. --message "CI deploy ${{ github.sha }}"
+        run: netlify deploy --prod --dir=/tmp/site --message "CI deploy ${{ github.sha }}"

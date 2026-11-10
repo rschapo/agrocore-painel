@@ -178,9 +178,14 @@ jobs:
           gh issue create \
             --title "Alerta: push da rotina diaria de $(date +%F) falhou (git divergente do site)" \
             --body-file /tmp/alert-push-body.md
+      # Publica so a pagina e o logo (desde 10/11/2026); README, prompts e scripts
+      # do repositorio nao vao para o site.
       - name: Deploy (producao)
         if: steps.guard.outputs.skip != 'true'
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        run: netlify deploy --prod --dir=. --message "Daily $(date +%F)"
+        run: |
+          rm -rf /tmp/site && mkdir -p /tmp/site
+          cp index.html logo-agrocore.png /tmp/site/
+          netlify deploy --prod --dir=/tmp/site --message "Daily $(date +%F)"

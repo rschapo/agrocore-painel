@@ -15,6 +15,14 @@ Para o "porquê" em prosa mais longa, ver o histórico completo em
 
 ---
 
+## 2026-11-10 — Site publica só a página e o logo
+
+- Os workflows `deploy.yml` e `daily-update.yml` e o `deploy.sh` passam a publicar uma pasta com apenas
+  `index.html` e `logo-agrocore.png`. Antes publicavam a raiz do repositório, e `readme.md`,
+  `prompt-claude-code.md`, `rotina-diaria.md`, `deploy.sh`, `changelog.md` e o PDF antigo ficavam abertos
+  no endereço do site. A página não usa nenhum outro arquivo (é autocontida). Prévia testada antes:
+  página e logo com 200, demais arquivos com 404.
+
 ## 2026-11-07 — Marca "Briefing AgroCore" e endereço www.agrocoregestao.com.br/briefing
 
 - O produto passa a se chamar **Briefing AgroCore**. Endereço público: `https://www.agrocoregestao.com.br/briefing`,

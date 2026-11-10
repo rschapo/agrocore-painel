@@ -23,6 +23,12 @@ if grep -qE '^(<{7}|={7}|>{7})' index.html; then
   exit 1
 fi
 
+# Publica so a pagina e o logo (desde 10/11/2026); README, prompts e scripts
+# do repositorio nao vao para o site.
+SITE="$(mktemp -d)"
+trap 'rm -rf "$SITE"' EXIT
+cp index.html logo-agrocore.png "$SITE/"
+
 echo "Publicando painel AgroCore no Netlify..."
-netlify deploy --prod --dir="$DIR" --message "Atualizacao painel AgroCore $(date +%Y-%m-%d)"
+netlify deploy --prod --dir="$SITE" --message "Atualizacao painel AgroCore $(date +%Y-%m-%d)"
 echo "Concluido. A URL publica foi exibida acima."
